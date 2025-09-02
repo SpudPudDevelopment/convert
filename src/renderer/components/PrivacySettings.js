@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './PrivacySettings.css';
 
 const PrivacySettings = ({ isOpen, onClose }) => {
   const [crashReportingStatus, setCrashReportingStatus] = useState({

@@ -6,7 +6,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ConversionPreset } from '../../shared/models/ConversionPreset';
 import usePresetCategories from '../hooks/usePresetCategories';
-import './PresetForm.css';
 
 const PresetForm = ({ 
   preset = null, 

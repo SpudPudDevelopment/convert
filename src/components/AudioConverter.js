@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import './AudioConverter.css';
 
 const AudioConverter = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);

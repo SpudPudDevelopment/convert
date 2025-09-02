@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ProgressBar from './ProgressBar';
-import './JobQueue.css';
 
 const JobQueue = ({ 
   jobs = [], 

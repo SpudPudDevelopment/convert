@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useRecentJobs, useRecentJobsFilter } from '../hooks/useRecentJobs.js';
 import { ConversionType, JobStatus } from '../../shared/types/jobEnums.js';
-import './RecentJobsList.css';
 
 /**
  * Component for displaying and managing recent conversion jobs

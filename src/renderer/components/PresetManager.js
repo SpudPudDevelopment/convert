@@ -5,7 +5,6 @@
 
 import React, { useState, useCallback, useRef } from 'react';
 import { useConversionPresets, usePresetCategories } from '../hooks/useConversionPresets';
-import './PresetManager.css';
 
 const PresetManager = ({ onPresetSelect, selectedPresetId, showTemplates = true }) => {
   // Hooks

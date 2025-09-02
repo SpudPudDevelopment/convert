@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { UserPreferences } from '../models/UserPreferences.js';
-import './ImportExportModal.css';
 
 /**
  * Enhanced Import/Export Modal Component

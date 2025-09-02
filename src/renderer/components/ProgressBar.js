@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './ProgressBar.css';
 
 const ProgressBar = ({ 
   progress = 0, 

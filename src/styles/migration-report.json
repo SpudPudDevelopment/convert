@@ -1,30 +1,30 @@
 {
-  "timestamp": "2025-09-02T17:11:25.342Z",
-  "duplicates": 218,
-  "unused": 244,
+  "timestamp": "2025-09-02T17:26:12.726Z",
+  "duplicates": 128,
+  "unused": 262,
   "recommendations": [
     {
       "priority": "HIGH",
       "action": "Remove duplicate class definitions",
-      "description": "Found 218 classes defined in multiple files",
+      "description": "Found 128 classes defined in multiple files",
       "examples": [
-        "App",
-        "App-main",
-        "features",
-        "primary-button",
-        "help-text"
+        "recent-jobs-panel",
+        "panel-header",
+        "panel-subtitle",
+        "panel-controls",
+        "view-mode-selector"
       ]
     },
     {
       "priority": "MEDIUM",
       "action": "Remove unused CSS classes",
-      "description": "Found 244 classes that are never used",
+      "description": "Found 262 classes that are never used",
       "examples": [
-        "error-handler",
-        "error-recovery-option",
-        "tab-button",
-        "filter-tab",
-        "quality-option"
+        "recent-jobs-panel",
+        "view-mode-btn",
+        "user-preferences-button",
+        "theme-button",
+        "tab-button"
       ]
     }
   ]

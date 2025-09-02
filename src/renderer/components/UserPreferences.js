@@ -7,7 +7,6 @@ import {
 } from '../contexts/UserPreferencesContext.js';
 import { UserPreferences } from '../models/UserPreferences.js';
 import ImportExportModal from './ImportExportModal.js';
-import './UserPreferences.css';
 
 /**
  * User Preferences Settings Component

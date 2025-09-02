@@ -12,8 +12,15 @@
 
 /* 4. Component Styles */
 @import './components/buttons.css';
+@import './components/audio-converter.css';
+@import './components/modals.css';
+@import './components/error-handler.css';
+@import './components/job-queue.css';
+@import './components/preset-form.css';
+@import './components/progress.css';
 
 /* 5. Layout Styles */
+@import './layout/app-layout.css';
 /* @import './layout/header.css'; */
 /* @import './layout/navigation.css'; */
 /* @import './layout/content.css'; */

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useRecentJobs } from '../hooks/useRecentJobs.js';
 import { ConversionType, JobStatus } from '../../shared/types/jobEnums.js';
-import './RecentJobsWidget.css';
 
 /**
  * Compact widget for displaying recent jobs in sidebars or dashboards
