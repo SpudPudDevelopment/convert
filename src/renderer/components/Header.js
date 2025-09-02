@@ -1,16 +1,12 @@
 import React from 'react';
-import { FaCog, FaSun, FaMoon, FaPalette, FaExchangeAlt, FaList, FaCogs } from 'react-icons/fa';
+import { FaCog, FaSun, FaMoon, FaPalette, FaExchangeAlt, FaList, FaCogs, FaShieldAlt } from 'react-icons/fa';
 
 const Header = ({ 
-  currentTheme, 
-  onThemeChange, 
-  onSettingsClick,
+  theme, 
+  onThemeToggle, 
+  onPrivacySettingsClick,
   showThemeToggle = true 
 }) => {
-  const handleThemeChange = (theme) => {
-    onThemeChange(theme);
-  };
-
   return (
     <header className="header">
       <div className="nav-container">
@@ -20,65 +16,34 @@ const Header = ({
           </div>
           <div>
             <div className="nav-title">Convert</div>
-            <div className="nav-subtitle">File Conversion Tool</div>
+            <div className="nav-subtitle">Universal File Converter</div>
           </div>
         </div>
         
         <div className="nav-controls">
-          <div className="nav-box">
-            <a href="#converter" className="nav-item active">
-              <FaExchangeAlt className="nav-item-icon" />
-              <span className="nav-item-text">Converter</span>
-            </a>
-            <a href="#presets" className="nav-item">
-              <FaList className="nav-item-icon" />
-              <span className="nav-item-text">Presets</span>
-            </a>
-            <a href="#settings" className="nav-item">
-              <FaCogs className="nav-item-icon" />
-              <span className="nav-item-text">Settings</span>
-            </a>
-          </div>
-          
           {showThemeToggle && (
             <div className="theme-toggle">
               <button
                 className="theme-toggle-btn"
-                onClick={() => onSettingsClick()}
-                aria-label="Open settings"
+                onClick={onThemeToggle}
+                aria-label="Toggle theme"
               >
-                <FaPalette className="theme-icon" />
-                <span className="theme-label">Theme</span>
+                {theme === 'dark' ? <FaSun className="theme-icon" /> : <FaMoon className="theme-icon" />}
+                <span className="theme-label">{theme === 'dark' ? 'Light' : 'Dark'}</span>
               </button>
-              
-              <div className="theme-options">
-                <button
-                  className={`theme-option ${currentTheme === 'light' ? 'active' : ''}`}
-                  onClick={() => handleThemeChange('light')}
-                  aria-label="Light theme"
-                >
-                  <FaSun className="theme-icon" />
-                  Light
-                </button>
-                <button
-                  className={`theme-option ${currentTheme === 'dark' ? 'active' : ''}`}
-                  onClick={() => handleThemeChange('dark')}
-                  aria-label="Dark theme"
-                >
-                  <FaMoon className="theme-icon" />
-                  Dark
-                </button>
-                <button
-                  className={`theme-option ${currentTheme === 'auto' ? 'active' : ''}`}
-                  onClick={() => handleThemeChange('auto')}
-                  aria-label="Auto theme"
-                >
-                  <FaPalette className="theme-icon" />
-                  Auto
-                </button>
-              </div>
             </div>
           )}
+          
+          <div className="nav-box">
+            <button
+              className="nav-item"
+              onClick={onPrivacySettingsClick}
+              aria-label="Privacy settings"
+            >
+              <FaShieldAlt className="nav-item-icon" />
+              <span className="nav-item-text">Privacy</span>
+            </button>
+          </div>
         </div>
       </div>
     </header>

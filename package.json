@@ -145,6 +145,7 @@
       "node_modules/**/*",
       "!node_modules/.cache",
       "!node_modules/@img/**/*",
+      "!node_modules/sharp/**/*",
       "!node_modules/@biomejs/cli-linux-x64",
       "!node_modules/@anthropic-ai/**/*",
       "!node_modules/@ai-sdk/**/*",

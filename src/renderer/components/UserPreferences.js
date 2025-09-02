@@ -13,7 +13,7 @@ import './UserPreferences.css';
  * User Preferences Settings Component
  * Provides a comprehensive interface for managing user preferences
  */
-const UserPreferences = ({ onClose }) => {
+const UserPreferencesComponent = ({ onClose }) => {
   const {
     preferences,
     loading,
@@ -630,4 +630,4 @@ const DataPrivacySettings = ({ onExport, onImport, onReset, onClearRecentJobs })
   );
 };
 
-export default UserPreferences;
+export default UserPreferencesComponent;

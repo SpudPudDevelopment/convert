@@ -2,15 +2,16 @@ import { useState, useEffect } from 'react';
 
 const useTheme = () => {
   const [theme, setTheme] = useState('dark');
-  const [isSystemTheme, setIsSystemTheme] = useState(false);
 
   useEffect(() => {
-    if (window.electronAPI) {
-      // Electron environment - force dark theme
-      window.electronAPI.setTheme('dark');
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
     } else {
-      // Web environment - force dark theme
-      localStorage.setItem('theme', 'dark');
+      // Check system preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
     }
   }, []);
 
@@ -18,21 +19,27 @@ const useTheme = () => {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.className = `theme-${theme}`;
+    
+    // Save theme preference
+    localStorage.setItem('theme', theme);
+    
+    // Update Electron theme if available
+    if (window.electronAPI && window.electronAPI.setTheme) {
+      window.electronAPI.setTheme(theme);
+    }
   }, [theme]);
 
-  const toggleTheme = async () => {
-    // Theme is locked to dark mode - no action needed
-    return;
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
   };
 
-  const setSystemTheme = async () => {
-    // Theme is locked to dark mode - no action needed
-    return;
+  const setSystemTheme = () => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark ? 'dark' : 'light');
   };
 
   return {
     theme,
-    isSystemTheme,
     toggleTheme,
     setSystemTheme,
     isDark: theme === 'dark'

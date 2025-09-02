@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-09-02T17:11:25.342Z",
+  "duplicates": 218,
+  "unused": 244,
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "action": "Remove duplicate class definitions",
+      "description": "Found 218 classes defined in multiple files",
+      "examples": [
+        "App",
+        "App-main",
+        "features",
+        "primary-button",
+        "help-text"
+      ]
+    },
+    {
+      "priority": "MEDIUM",
+      "action": "Remove unused CSS classes",
+      "description": "Found 244 classes that are never used",
+      "examples": [
+        "error-handler",
+        "error-recovery-option",
+        "tab-button",
+        "filter-tab",
+        "quality-option"
+      ]
+    }
+  ]
+}

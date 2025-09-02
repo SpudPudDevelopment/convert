@@ -1,0 +1,91 @@
+/* Main CSS Index - New Architecture */
+/* Imports all base styles in the correct order */
+
+/* 1. Base Variables and Design Tokens */
+@import './base/variables.css';
+
+/* 2. CSS Reset and Base Styles */
+@import './base/reset.css';
+
+/* 3. Utility Classes */
+@import './utilities/spacing.css';
+
+/* 4. Component Styles */
+@import './components/buttons.css';
+
+/* 5. Layout Styles */
+/* @import './layout/header.css'; */
+/* @import './layout/navigation.css'; */
+/* @import './layout/content.css'; */
+/* @import './layout/footer.css'; */
+
+/* 6. Theme Styles */
+/* @import './themes/light.css'; */
+/* @import './themes/dark.css'; */
+
+/* 7. Component-specific styles (imported as needed) */
+/* @import './components/forms.css'; */
+/* @import './components/modals.css'; */
+/* @import './components/tables.css'; */
+/* @import './components/cards.css'; */
+
+/* Global App Styles */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+}
+
+/* Ensure proper font rendering */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styles */
+::selection {
+  background: var(--accent-color);
+  color: var(--text-inverse);
+}
+
+::-moz-selection {
+  background: var(--accent-color);
+  color: var(--text-inverse);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-color-hover);
+}
+
+/* Focus styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}

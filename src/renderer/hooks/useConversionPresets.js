@@ -6,16 +6,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { ConversionPreset, PresetEvents } from '../models/ConversionPresetRenderer';
 
-// Handle both Electron and web environments
-let ipcRenderer = null;
-if (typeof window !== 'undefined' && window.require) {
-  try {
-    ({ ipcRenderer } = window.require('electron'));
-  } catch (error) {
-    console.warn('Electron IPC not available, running in web mode');
-  }
-}
-
 /**
  * Custom hook for managing conversion presets
  */
@@ -42,7 +32,14 @@ export const useConversionPresets = (options = {}) => {
   const loadingRef = useRef(false);
 
   /**
-   * Load presets from the main process
+   * Check if Electron API is available
+   */
+  const isElectronAvailable = () => {
+    return typeof window !== 'undefined' && window.electronAPI;
+  };
+
+  /**
+   * Load presets from the main process or use fallback
    */
   const loadPresets = useCallback(async (filters = {}) => {
     if (loadingRef.current) return;
@@ -52,25 +49,64 @@ export const useConversionPresets = (options = {}) => {
       loadingRef.current = true;
       setError(null);
 
-      if (!ipcRenderer) {
-        // Web mode fallback - provide empty presets
-        console.warn('IPC not available, using fallback preset data');
-        setPresets([]);
+      if (!isElectronAvailable()) {
+        // Web mode fallback - provide sample presets
+        console.warn('Electron API not available, using fallback preset data');
+        const fallbackPresets = [
+          {
+            id: 'default-jpeg',
+            name: 'High Quality JPEG',
+            category: 'image',
+            description: 'High quality JPEG conversion with 90% quality',
+            settings: { format: 'jpeg', quality: 90 }
+          },
+          {
+            id: 'default-png',
+            name: 'Lossless PNG',
+            category: 'image',
+            description: 'Lossless PNG conversion with transparency support',
+            settings: { format: 'png', compressionLevel: 9 }
+          }
+        ];
+        setPresets(fallbackPresets);
         return;
       }
 
-      const result = await ipcRenderer.invoke('preset-manager:getPresets', {
-        category: filterCategory,
-        search: searchQuery,
-        sortBy,
-        sortOrder,
-        ...filters
-      });
+      // Try to use electronAPI if available
+      try {
+        const result = await window.electronAPI.invoke('preset-manager:getPresets', {
+          category: filterCategory,
+          search: searchQuery,
+          sortBy,
+          sortOrder,
+          ...filters
+        });
 
-      if (result.success) {
-        setPresets(result.presets || []);
-      } else {
-        throw new Error(result.error || 'Failed to load presets');
+        if (result && result.success) {
+          setPresets(result.presets || []);
+        } else {
+          throw new Error(result?.error || 'Failed to load presets');
+        }
+      } catch (ipcError) {
+        console.warn('IPC call failed, using fallback:', ipcError);
+        // Fallback to sample presets
+        const fallbackPresets = [
+          {
+            id: 'default-jpeg',
+            name: 'High Quality JPEG',
+            category: 'image',
+            description: 'High quality JPEG conversion with 90% quality',
+            settings: { format: 'jpeg', quality: 90 }
+          },
+          {
+            id: 'default-png',
+            name: 'Lossless PNG',
+            category: 'image',
+            description: 'Lossless PNG conversion with transparency support',
+            settings: { format: 'png', compressionLevel: 9 }
+          }
+        ];
+        setPresets(fallbackPresets);
       }
     } catch (err) {
       console.error('Error loading presets:', err);
@@ -82,25 +118,51 @@ export const useConversionPresets = (options = {}) => {
   }, [filterCategory, searchQuery, sortBy, sortOrder]);
 
   /**
-   * Load templates from the main process
+   * Load templates from the main process or use fallback
    */
   const loadTemplates = useCallback(async (filters = {}) => {
     try {
-      if (!ipcRenderer) {
-        console.warn('IPC not available, using fallback template data');
-        setTemplates([]);
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, using fallback template data');
+        const fallbackTemplates = [
+          {
+            id: 'template-web',
+            name: 'Web Optimized',
+            category: 'image',
+            description: 'Optimized for web use with compression',
+            settings: { format: 'webp', quality: 80 }
+          }
+        ];
+        setTemplates(fallbackTemplates);
         return;
       }
 
-      const result = await ipcRenderer.invoke('preset-template:getTemplates', filters);
-      
-      if (result.success) {
-        setTemplates(result.templates || []);
-      } else {
-        console.error('Failed to load templates:', result.error);
+      // Try to use electronAPI if available
+      try {
+        const result = await window.electronAPI.invoke('preset-template:getTemplates', filters);
+        
+        if (result && result.success) {
+          setTemplates(result.templates || []);
+        } else {
+          throw new Error(result?.error || 'Failed to load templates');
+        }
+      } catch (ipcError) {
+        console.warn('IPC call failed, using fallback:', ipcError);
+        // Fallback to sample templates
+        const fallbackTemplates = [
+          {
+            id: 'template-web',
+            name: 'Web Optimized',
+            category: 'image',
+            description: 'Optimized for web use with compression',
+            settings: { format: 'webp', quality: 80 }
+          }
+        ];
+        setTemplates(fallbackTemplates);
       }
     } catch (err) {
       console.error('Error loading templates:', err);
+      setError(err.message);
     }
   }, []);
 
@@ -112,18 +174,18 @@ export const useConversionPresets = (options = {}) => {
       setLoading(true);
       setError(null);
 
-      if (!ipcRenderer) {
-        console.warn('IPC not available, preset creation not supported in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, preset creation not supported in web mode');
         throw new Error('Preset creation not available in web mode');
       }
 
-      const result = await ipcRenderer.invoke('preset-manager:createPreset', presetData);
+      const result = await window.electronAPI.invoke('preset-manager:createPreset', presetData);
       
-      if (result.success) {
+      if (result && result.success) {
         await loadPresets();
         return result.preset;
       } else {
-        throw new Error(result.error || 'Failed to create preset');
+        throw new Error(result?.error || 'Failed to create preset');
       }
     } catch (err) {
       console.error('Error creating preset:', err);
@@ -142,21 +204,21 @@ export const useConversionPresets = (options = {}) => {
       setLoading(true);
       setError(null);
 
-      if (!ipcRenderer) {
-        console.warn('IPC not available, preset update not supported in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, preset update not supported in web mode');
         throw new Error('Preset update not available in web mode');
       }
 
-      const result = await ipcRenderer.invoke('preset-manager:updatePreset', {
+      const result = await window.electronAPI.invoke('preset-manager:updatePreset', {
         id: presetId,
         updates
       });
       
-      if (result.success) {
+      if (result && result.success) {
         await loadPresets();
         return result.preset;
       } else {
-        throw new Error(result.error || 'Failed to update preset');
+        throw new Error(result?.error || 'Failed to update preset');
       }
     } catch (err) {
       console.error('Error updating preset:', err);
@@ -175,21 +237,21 @@ export const useConversionPresets = (options = {}) => {
       setLoading(true);
       setError(null);
 
-      if (!ipcRenderer) {
-        console.warn('IPC not available, preset deletion not supported in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, preset deletion not supported in web mode');
         throw new Error('Preset deletion not available in web mode');
       }
 
-      const result = await ipcRenderer.invoke('preset-manager:deletePreset', presetId);
+      const result = await window.electronAPI.invoke('preset-manager:deletePreset', presetId);
       
-      if (result.success) {
+      if (result && result.success) {
         await loadPresets();
         if (selectedPreset?.id === presetId) {
           setSelectedPreset(null);
         }
         return true;
       } else {
-        throw new Error(result.error || 'Failed to delete preset');
+        throw new Error(result?.error || 'Failed to delete preset');
       }
     } catch (err) {
       console.error('Error deleting preset:', err);
@@ -208,21 +270,21 @@ export const useConversionPresets = (options = {}) => {
       setLoading(true);
       setError(null);
 
-      if (!ipcRenderer) {
-        console.warn('IPC not available, preset duplication not supported in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, preset duplication not supported in web mode');
         throw new Error('Preset duplication not available in web mode');
       }
 
-      const result = await ipcRenderer.invoke('preset-template:duplicatePreset', {
+      const result = await window.electronAPI.invoke('preset-template:duplicatePreset', {
         sourceId: presetId,
         ...options
       });
       
-      if (result.success) {
+      if (result && result.success) {
         await loadPresets();
         return result.preset;
       } else {
-        throw new Error(result.error || 'Failed to duplicate preset');
+        throw new Error(result?.error || 'Failed to duplicate preset');
       }
     } catch (err) {
       console.error('Error duplicating preset:', err);
@@ -241,21 +303,21 @@ export const useConversionPresets = (options = {}) => {
       setLoading(true);
       setError(null);
 
-      if (!ipcRenderer) {
-        console.warn('IPC not available, template creation not supported in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, template creation not supported in web mode');
         throw new Error('Template creation not available in web mode');
       }
 
-      const result = await ipcRenderer.invoke('preset-template:createFromTemplate', {
+      const result = await window.electronAPI.invoke('preset-template:createFromTemplate', {
         templateId,
         customizations
       });
       
-      if (result.success) {
+      if (result && result.success) {
         await loadPresets();
         return result.preset;
       } else {
-        throw new Error(result.error || 'Failed to create preset from template');
+        throw new Error(result?.error || 'Failed to create preset from template');
       }
     } catch (err) {
       console.error('Error creating from template:', err);
@@ -274,21 +336,21 @@ export const useConversionPresets = (options = {}) => {
       setLoading(true);
       setError(null);
 
-      if (!ipcRenderer) {
-        console.warn('IPC not available, template creation not supported in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, template creation not supported in web mode');
         throw new Error('Template creation not available in web mode');
       }
 
-      const result = await ipcRenderer.invoke('preset-template:createTemplate', {
+      const result = await window.electronAPI.invoke('preset-template:createTemplate', {
         presetId,
         templateOptions
       });
       
-      if (result.success) {
+      if (result && result.success) {
         await loadTemplates();
         return result.template;
       } else {
-        throw new Error(result.error || 'Failed to create template');
+        throw new Error(result?.error || 'Failed to create template');
       }
     } catch (err) {
       console.error('Error creating template:', err);
@@ -307,18 +369,18 @@ export const useConversionPresets = (options = {}) => {
       setLoading(true);
       setError(null);
 
-      if (!ipcRenderer) {
-        console.warn('IPC not available, preset import not supported in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, preset import not supported in web mode');
         throw new Error('Preset import not available in web mode');
       }
 
-      const result = await ipcRenderer.invoke('preset-manager:importPresets', filePath);
+      const result = await window.electronAPI.invoke('preset-manager:importPresets', filePath);
       
-      if (result.success) {
+      if (result && result.success) {
         await loadPresets();
         return result.imported;
       } else {
-        throw new Error(result.error || 'Failed to import presets');
+        throw new Error(result?.error || 'Failed to import presets');
       }
     } catch (err) {
       console.error('Error importing presets:', err);
@@ -337,20 +399,20 @@ export const useConversionPresets = (options = {}) => {
       setLoading(true);
       setError(null);
 
-      if (!ipcRenderer) {
-        console.warn('IPC not available, preset export not supported in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, preset export not supported in web mode');
         throw new Error('Preset export not available in web mode');
       }
 
-      const result = await ipcRenderer.invoke('preset-manager:exportPresets', {
+      const result = await window.electronAPI.invoke('preset-manager:exportPresets', {
         presetIds,
         filePath
       });
       
-      if (result.success) {
+      if (result && result.success) {
         return result.filePath;
       } else {
-        throw new Error(result.error || 'Failed to export presets');
+        throw new Error(result?.error || 'Failed to export presets');
       }
     } catch (err) {
       console.error('Error exporting presets:', err);
@@ -366,13 +428,13 @@ export const useConversionPresets = (options = {}) => {
    */
   const getStatistics = useCallback(async () => {
     try {
-      if (!ipcRenderer) {
-        console.warn('IPC not available, statistics not supported in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, statistics not supported in web mode');
         return null;
       }
 
-      const result = await ipcRenderer.invoke('preset-manager:getStatistics');
-      return result.success ? result.statistics : null;
+      const result = await window.electronAPI.invoke('preset-manager:getStatistics');
+      return result && result.success ? result.statistics : null;
     } catch (err) {
       console.error('Error getting statistics:', err);
       return null;
@@ -384,8 +446,8 @@ export const useConversionPresets = (options = {}) => {
    */
   const searchPresets = useCallback(async (query, filters = {}) => {
     try {
-      if (!ipcRenderer) {
-        console.warn('IPC not available, using local search in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, using local search in web mode');
         return presets.filter(preset => {
           const searchQuery = query.toLowerCase();
           return preset.name.toLowerCase().includes(searchQuery) ||
@@ -394,12 +456,12 @@ export const useConversionPresets = (options = {}) => {
         });
       }
 
-      const result = await ipcRenderer.invoke('preset-manager:searchPresets', {
+      const result = await window.electronAPI.invoke('preset-manager:searchPresets', {
         query,
         ...filters
       });
       
-      return result.success ? result.presets : [];
+      return result && result.success ? result.presets : [];
     } catch (err) {
       console.error('Error searching presets:', err);
       return [];
@@ -411,8 +473,8 @@ export const useConversionPresets = (options = {}) => {
    */
   const validatePreset = useCallback(async (presetData) => {
     try {
-      if (!ipcRenderer) {
-        console.warn('IPC not available, using basic validation in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, using basic validation in web mode');
         // Basic client-side validation
         const errors = [];
         if (!presetData.name) errors.push('Name is required');
@@ -420,8 +482,8 @@ export const useConversionPresets = (options = {}) => {
         return { isValid: errors.length === 0, errors };
       }
 
-      const result = await ipcRenderer.invoke('preset-validator:validatePreset', presetData);
-      return result.success ? result.validation : { isValid: false, errors: ['Validation failed'] };
+      const result = await window.electronAPI.invoke('preset-validator:validatePreset', presetData);
+      return result && result.success ? result.validation : { isValid: false, errors: ['Validation failed'] };
     } catch (err) {
       console.error('Error validating preset:', err);
       return { isValid: false, errors: [err.message] };
@@ -432,7 +494,7 @@ export const useConversionPresets = (options = {}) => {
    * Setup IPC listeners for real-time updates
    */
   useEffect(() => {
-    if (!enableRealTimeUpdates || !ipcRenderer) return;
+    if (!enableRealTimeUpdates || !isElectronAvailable()) return;
 
     const listeners = [
       {
@@ -477,7 +539,7 @@ export const useConversionPresets = (options = {}) => {
 
     // Register listeners
     listeners.forEach(({ channel, handler }) => {
-      ipcRenderer.on(channel, handler);
+      window.electronAPI.on(channel, handler);
     });
 
     ipcListenersRef.current = listeners;
@@ -485,7 +547,7 @@ export const useConversionPresets = (options = {}) => {
     return () => {
       // Cleanup listeners
       listeners.forEach(({ channel, handler }) => {
-        ipcRenderer.removeListener(channel, handler);
+        window.electronAPI.removeListener(channel, handler);
       });
     };
   }, [enableRealTimeUpdates, loadPresets, selectedPreset]);
@@ -584,18 +646,18 @@ export const usePreset = (presetId) => {
       setLoading(true);
       setError(null);
 
-      if (!ipcRenderer) {
-        console.warn('IPC not available, preset loading not supported in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, preset loading not supported in web mode');
         setError('Preset loading not available in web mode');
         return;
       }
 
-      const result = await ipcRenderer.invoke('preset-manager:getPreset', presetId);
+      const result = await window.electronAPI.invoke('preset-manager:getPreset', presetId);
       
-      if (result.success) {
+      if (result && result.success) {
         setPreset(result.preset);
       } else {
-        throw new Error(result.error || 'Failed to load preset');
+        throw new Error(result?.error || 'Failed to load preset');
       }
     } catch (err) {
       console.error('Error loading preset:', err);
@@ -628,15 +690,15 @@ export const usePresetCategories = () => {
     try {
       setLoading(true);
       
-      if (!ipcRenderer) {
-        console.warn('IPC not available, using default categories in web mode');
+      if (!isElectronAvailable()) {
+        console.warn('Electron API not available, using default categories in web mode');
         setCategories(['General', 'Image', 'Video', 'Audio', 'Document']);
         return;
       }
       
-      const result = await ipcRenderer.invoke('preset-manager:getCategories');
+      const result = await window.electronAPI.invoke('preset-manager:getCategories');
       
-      if (result.success) {
+      if (result && result.success) {
         setCategories(result.categories || []);
       }
     } catch (err) {
