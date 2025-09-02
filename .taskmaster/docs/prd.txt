@@ -1,0 +1,307 @@
+<context>
+# Overview  
+ConvertX is a standalone macOS desktop application designed to simplify file conversion across multiple media types. It addresses the common challenge users face when needing to convert files between different formats without requiring multiple specialized applications or online services that may compromise privacy. ConvertX is built for professionals, content creators, and everyday users who need a reliable, offline conversion solution with a consistent interface across different media types.
+
+# Core Features  
+## 1. Document Converter
+- **What it does**: Converts between various document formats (PDF, DOCX, TXT, RTF, HTML, EPUB, etc.)
+- **Why it's important**: Ensures compatibility across different software and platforms while preserving formatting
+- **How it works**: Uses specialized document parsing libraries to maintain document structure, formatting, and embedded elements during conversion
+
+## 2. Image Converter
+- **What it does**: Converts between image formats (JPG, PNG, WEBP, TIFF, SVG, GIF, etc.) with options for quality, compression, and metadata handling
+- **Why it's important**: Optimizes images for different use cases (web, print, storage) while maintaining appropriate quality
+- **How it works**: Leverages image processing libraries to handle color profiles, transparency, and resolution adjustments during conversion
+
+## 3. Audio Converter
+- **What it does**: Converts between audio formats (MP3, WAV, FLAC, AAC, OGG, etc.) with options for bitrate, sample rate, and channels
+- **Why it's important**: Ensures audio compatibility across devices and applications while optimizing for quality or file size
+- **How it works**: Uses audio processing libraries to handle codec conversion while preserving audio quality according to user preferences
+
+## 4. Video Converter
+- **What it does**: Converts between video formats (MP4, MOV, AVI, MKV, WEBM, etc.) with options for resolution, codec, bitrate, and frame rate
+- **Why it's important**: Makes videos compatible with different platforms and devices while optimizing for quality or file size
+- **How it works**: Utilizes video processing frameworks to handle complex transcoding operations while maintaining synchronization between audio and video streams
+
+# User Experience  
+## User Personas
+1. **Content Creator Maya**: Professional who works with multiple media types and needs to convert files for clients, social media, and various platforms
+2. **Office Worker Sam**: Needs to convert documents between formats for work compatibility and occasionally convert personal media files
+3. **Student Alex**: Regularly converts lecture recordings, study materials, and project files between formats for different course requirements
+
+## Key User Flows
+1. **File Selection and Conversion**:
+   - User selects conversion category (document, image, audio, video)
+   - User adds source files via drag-and-drop or file browser
+   - User selects target format and adjusts conversion settings
+   - User initiates conversion and receives converted files
+
+2. **Batch Processing**:
+   - User selects multiple files of the same type
+   - User configures conversion settings once for all files
+   - System processes all files sequentially and notifies upon completion
+
+3. **Preset Management**:
+   - User saves frequently used conversion settings as named presets
+   - User applies presets to quickly configure future conversions
+
+## UI/UX Considerations
+- **Unified Interface**: Consistent design across all conversion types with category-specific options appearing contextually
+- **Visual Feedback**: Progress indicators for ongoing conversions with time estimates
+- **Drag-and-Drop Support**: Intuitive file handling throughout the application
+- **Dark/Light Mode**: Support for system appearance preferences
+- **Accessibility**: Full keyboard navigation, screen reader support, and appropriate contrast ratios
+</context>
+<PRD>
+# Technical Architecture  
+## System Components
+1. **Core Application Framework**
+   - Electron-based desktop application for cross-platform compatibility
+   - React for UI components and state management
+   - Node.js for backend processing and file system operations
+
+2. **Conversion Engines**
+   - Document Engine: Leveraging libraries like pdf.js, mammoth.js, and turndown
+   - Image Engine: Using Sharp or ImageMagick for processing
+   - Audio Engine: Implementing FFmpeg for audio transcoding
+   - Video Engine: Utilizing FFmpeg for video transcoding
+
+3. **File Management System**
+   - Temporary file handling and cleanup
+   - Output organization and naming conventions
+   - File metadata preservation
+
+## Data Models
+1. **Conversion Job**
+   ```
+   {
+     id: string,
+     type: 'document'|'image'|'audio'|'video',
+     sourceFiles: File[],
+     targetFormat: string,
+     settings: ConversionSettings,
+     status: 'pending'|'processing'|'completed'|'failed',
+     progress: number,
+     result: ConversionResult
+   }
+   ```
+
+2. **Conversion Settings**
+   ```
+   {
+     // Common settings
+     outputDirectory: string,
+     overwriteExisting: boolean,
+     
+     // Format-specific settings
+     // (Document settings)
+     preserveFormatting: boolean,
+     embedFonts: boolean,
+     
+     // (Image settings)
+     quality: number,
+     resizeOptions: ResizeOptions,
+     
+     // (Audio settings)
+     bitrate: number,
+     sampleRate: number,
+     channels: number,
+     
+     // (Video settings)
+     resolution: string,
+     videoBitrate: number,
+     audioBitrate: number,
+     frameRate: number
+   }
+   ```
+
+3. **User Preferences**
+   ```
+   {
+     defaultOutputDirectory: string,
+     savedPresets: Preset[],
+     recentJobs: Job[],
+     appearance: 'system'|'light'|'dark',
+     concurrentConversions: number
+   }
+   ```
+
+## APIs and Integrations
+1. **Internal APIs**
+   - Conversion Service API for handling conversion requests
+   - File System API for file operations
+   - Settings API for managing user preferences
+
+2. **External Integrations**
+   - FFmpeg for audio/video processing
+   - Document processing libraries
+   - Image processing libraries
+
+## Infrastructure Requirements
+1. **Local Storage**
+   - Application settings stored in user preferences
+   - Temporary conversion workspace with cleanup mechanisms
+
+2. **System Resources**
+   - CPU/Memory management for resource-intensive conversions
+   - Parallel processing capabilities with configurable limits
+
+3. **Dependencies**
+   - Bundled binaries for FFmpeg and other conversion tools
+   - Automatic updates for conversion libraries
+
+# Development Roadmap  
+## Phase 1: MVP (Minimum Viable Product)
+1. **Core Application Framework**
+   - Basic Electron application setup with React UI
+   - File selection and output directory management
+   - Conversion job queue and progress tracking
+
+2. **Document Conversion**
+   - Support for PDF to/from DOCX, TXT conversions
+   - Basic formatting preservation
+   - Simple conversion settings
+
+3. **Image Conversion**
+   - Support for JPG, PNG, and WEBP formats
+   - Basic quality and resize options
+   - Batch processing capability
+
+4. **Simple User Interface**
+   - Category selection tabs
+   - Drag-and-drop file input
+   - Conversion progress display
+   - Basic error handling
+
+## Phase 2: Enhanced Functionality
+1. **Expanded Format Support**
+   - Additional document formats (RTF, HTML, EPUB)
+   - More image formats (TIFF, GIF, SVG)
+   - Basic audio conversion (MP3, WAV, AAC)
+   - Basic video conversion (MP4, MOV)
+
+2. **Advanced Settings**
+   - Format-specific conversion options
+   - Metadata handling options
+   - Output naming patterns
+   - Preset saving and management
+
+3. **Improved User Experience**
+   - Dark/Light mode support
+   - Job history and recent files
+   - Improved error handling and recovery
+   - Keyboard shortcuts
+
+## Phase 3: Complete Solution
+1. **Full Format Coverage**
+   - Comprehensive support for all planned formats
+   - Advanced conversion options for each format
+   - Batch processing with mixed format types
+
+2. **Advanced Audio/Video Features**
+   - Audio extraction from video
+   - Video trimming and basic editing
+   - Audio normalization and enhancement
+   - Video resolution and quality optimization
+
+3. **Performance Optimizations**
+   - Parallel processing for batch conversions
+   - Memory usage optimizations
+   - Processing speed improvements
+
+4. **Enhanced UI/UX**
+   - Conversion previews where applicable
+   - Advanced file browser integration
+   - Comprehensive accessibility features
+   - Customizable interface layout
+
+# Logical Dependency Chain
+1. **Foundation (Must Complete First)**
+   - Core application framework and UI shell
+   - File system operations (read/write/temp files)
+   - Basic conversion pipeline architecture
+   - Document and image conversion engines (simplest to implement)
+
+2. **Functional Application**
+   - Complete document and image conversion with all settings
+   - User preferences and preset management
+   - Improved UI with proper feedback and error handling
+   - Basic audio conversion functionality
+
+3. **Complete Feature Set**
+   - Video conversion implementation
+   - Advanced audio/video options
+   - Batch processing optimizations
+   - History and recent files management
+
+4. **Polish and Performance**
+   - UI/UX refinements based on user feedback
+   - Performance optimizations for large files
+   - Accessibility improvements
+   - Final format support additions
+
+# Risks and Mitigations  
+## Technical Challenges
+1. **Risk**: Performance issues with large file conversions
+   - **Mitigation**: Implement chunked processing, progress tracking, and cancelable operations
+
+2. **Risk**: Inconsistent output quality across different conversion types
+   - **Mitigation**: Extensive testing with various file types and development of format-specific optimization strategies
+
+3. **Risk**: Dependency on external libraries for conversion
+   - **Mitigation**: Careful evaluation of libraries, version pinning, and fallback mechanisms
+
+## MVP Scope Management
+1. **Risk**: Feature creep extending development timeline
+   - **Mitigation**: Strict adherence to MVP definition with clear criteria for inclusion
+
+2. **Risk**: Attempting to support too many formats initially
+   - **Mitigation**: Focus on most common formats first with clear extension path
+
+## Resource Constraints
+1. **Risk**: High CPU/memory usage during conversions
+   - **Mitigation**: Implement resource monitoring, throttling mechanisms, and user-configurable limits
+
+2. **Risk**: Large application size due to bundled conversion tools
+   - **Mitigation**: Optimize bundling, consider optional downloads for less common conversion types
+
+# Appendix  
+## Format Support Matrix
+
+| Category | MVP Formats | Phase 2 Formats | Phase 3 Formats |
+|----------|-------------|-----------------|------------------|
+| Document | PDF, DOCX, TXT | RTF, HTML, EPUB | ODT, Pages, XPS |
+| Image | JPG, PNG, WEBP | TIFF, GIF, SVG | BMP, HEIC, RAW |
+| Audio | - | MP3, WAV, AAC | FLAC, OGG, M4A |
+| Video | - | MP4, MOV | AVI, MKV, WEBM |
+
+## Technical Research Findings
+
+1. **Document Conversion**
+   - PDF.js provides robust PDF parsing capabilities
+   - Mammoth.js excels at DOCX to HTML conversion
+   - Consider hybrid approach for complex documents
+
+2. **Image Processing**
+   - Sharp offers better performance than ImageMagick for most operations
+   - SVG conversion requires specialized vector handling
+
+3. **Audio/Video Processing**
+   - FFmpeg remains the most versatile tool for media conversion
+   - WebAssembly versions of FFmpeg can improve performance in Electron
+   - Consider separate processing threads for UI responsiveness
+
+## User Research Summary
+
+1. **Key User Needs**
+   - Simplicity and consistency across conversion types
+   - Reliable output quality with minimal settings adjustment
+   - Batch processing for efficiency
+   - Privacy concerns with online conversion services
+
+2. **Competitive Analysis**
+   - Most existing solutions focus on single media type
+   - Web-based converters raise privacy concerns
+   - Desktop solutions often have outdated interfaces
+   - Opportunity for unified, modern conversion experience
+</PRD>

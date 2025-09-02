@@ -1,0 +1,454 @@
+/* Update Notification Styles */
+
+.update-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+}
+
+.update-modal {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+.update-modal .modal-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: none;
+}
+
+.update-modal .modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.update-modal .modal-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.update-modal .modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.update-modal .modal-content {
+  padding: 2rem;
+  color: var(--text-primary);
+}
+
+.update-modal .modal-actions {
+  padding: 1.5rem 2rem;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Update Info Styles */
+.update-info {
+  text-align: center;
+}
+
+.update-version {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.update-date {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.update-notes {
+  text-align: left;
+  margin-top: 1.5rem;
+}
+
+.update-notes h4 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.release-notes {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+}
+
+/* Download Progress Styles */
+.download-progress {
+  text-align: center;
+}
+
+.progress-info {
+  margin-bottom: 1.5rem;
+}
+
+.progress-text {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.progress-details {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: progressShimmer 2s infinite;
+}
+
+/* Update Ready Styles */
+.update-ready {
+  text-align: center;
+}
+
+.update-ready p {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.update-ready p:first-child {
+  font-size: 1.1rem;
+  color: var(--success-color);
+}
+
+/* Button Styles */
+.update-modal .btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  min-width: 100px;
+}
+
+.update-modal .btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.update-modal .btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.update-modal .btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.update-modal .btn-secondary {
+  background: var(--bg-accent);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.update-modal .btn-secondary:hover {
+  background: var(--bg-secondary);
+  transform: translateY(-1px);
+}
+
+.update-modal .btn-tertiary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  font-size: 0.85rem;
+}
+
+.update-modal .btn-tertiary:hover {
+  background: var(--bg-accent);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.update-modal .btn-warning {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.update-modal .btn-warning:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+/* Update History Styles */
+.update-history {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.current-version {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.current-version h4 {
+  margin: 0 0 0.75rem 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.version-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.version-status {
+  color: var(--success-color);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.previous-versions h4 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.version-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.version-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.version-item:hover {
+  background: var(--bg-accent);
+  transform: translateX(2px);
+}
+
+.version-number {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.version-date {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.no-history {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-secondary);
+}
+
+.no-history p {
+  margin: 0;
+  font-style: italic;
+}
+
+.rollback-info {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-accent);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.rollback-info .info-text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* Animations */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes progressShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .update-modal {
+    width: 95%;
+    margin: 1rem;
+  }
+  
+  .update-modal .modal-content {
+    padding: 1.5rem;
+  }
+  
+  .update-modal .modal-actions {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+  }
+  
+  .update-modal .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .update-modal .btn:last-child {
+    margin-bottom: 0;
+  }
+  
+  .release-notes {
+    max-height: 150px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .update-modal-overlay {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  .release-notes {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .progress-bar {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .update-modal {
+    border: 2px solid var(--text-primary);
+  }
+  
+  .update-modal .modal-header {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+  }
+  
+  .progress-fill {
+    background: var(--text-primary);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .update-modal {
+    animation: none;
+  }
+  
+  .progress-fill::after {
+    animation: none;
+  }
+  
+  .update-modal .btn:hover {
+    transform: none;
+  }
+}

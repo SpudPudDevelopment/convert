@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      // Set CSP based on environment
+      const isProduction = <%= isProduction %>;
+      const csp = isProduction 
+        ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self';"
+        : "default-src 'self' http://localhost:3000 ws://localhost:3000; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://localhost:3000; style-src 'self' 'unsafe-inline' http://localhost:3000; connect-src 'self' http://localhost:3000 ws://localhost:3000;";
+      
+      const meta = document.createElement('meta');
+      meta.httpEquiv = 'Content-Security-Policy';
+      meta.content = csp;
+      document.head.appendChild(meta);
+    </script>
+    <title>Convert - Universal File Converter</title>
+  </head>
+  <body>
+    <script>
+      if (typeof global === 'undefined') {
+        var global = globalThis;
+      }
+    </script>
+    <div id="root"></div>
+  </body>
+</html>

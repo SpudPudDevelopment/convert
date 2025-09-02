@@ -1,0 +1,775 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 21,
+        "title": "Setup Electron Application Framework with React",
+        "description": "Initialize the core application framework using Electron and React as specified in the technical architecture",
+        "details": "Create a new Electron project with React integration:\n1. Initialize a new Node.js project with `npm init`\n2. Install Electron, React, and related dependencies\n3. Set up the main Electron process file to create application window\n4. Configure webpack for React bundling\n5. Create basic folder structure:\n   - `/src/main` for Electron main process\n   - `/src/renderer` for React components\n   - `/src/shared` for shared utilities\n6. Implement basic IPC (Inter-Process Communication) between main and renderer processes\n7. Configure development environment with hot reloading\n8. Set up basic application menu and window management\n9. Implement system appearance detection for dark/light mode support",
+        "testStrategy": "1. Verify application launches correctly on macOS\n2. Test window creation, resizing, and closing\n3. Validate IPC communication between main and renderer processes\n4. Ensure React components render properly\n5. Verify system appearance detection works correctly\n6. Test development hot reloading functionality",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Project Initialization and Dependency Installation",
+            "description": "Set up the Node.js project and install all required dependencies for Electron and React integration",
+            "dependencies": [],
+            "details": "1. Create a new project directory\n2. Initialize a new Node.js project with `npm init`\n3. Install core dependencies: Electron, React, React DOM\n4. Install development dependencies: webpack, babel, electron-builder\n5. Create initial package.json configuration with scripts for development and building\n6. Set up .gitignore and other configuration files\n7. Document the project setup and dependencies",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Main Process Configuration",
+            "description": "Set up the Electron main process with window management and system integration",
+            "dependencies": [
+              "21.1"
+            ],
+            "details": "1. Create the main process entry file (main.js)\n2. Implement window creation and management\n3. Set up application lifecycle events (ready, window-all-closed, activate)\n4. Configure basic application menu structure\n5. Implement system appearance detection for dark/light mode\n6. Set up proper window state management (size, position, maximized state)\n7. Configure application icons and metadata",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Renderer Process and React Setup",
+            "description": "Configure the renderer process with React integration and basic component structure",
+            "dependencies": [
+              "21.1",
+              "21.2"
+            ],
+            "details": "1. Create the renderer process entry point\n2. Set up basic React application structure\n3. Configure webpack for bundling React components\n4. Create the folder structure for React components (/src/renderer)\n5. Implement a basic App component with placeholder content\n6. Set up CSS/SCSS processing for styling\n7. Configure HTML template for the renderer process",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "IPC Communication Implementation",
+            "description": "Establish Inter-Process Communication between main and renderer processes",
+            "dependencies": [
+              "21.2",
+              "21.3"
+            ],
+            "details": "1. Create the shared utilities folder structure (/src/shared)\n2. Implement IPC channel definitions and types\n3. Set up main process IPC listeners and handlers\n4. Create renderer process IPC service for sending messages\n5. Implement a basic message exchange system for testing\n6. Create utility functions for common IPC patterns\n7. Document the IPC architecture and message formats",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Development Environment Configuration",
+            "description": "Set up the development environment with hot reloading and debugging tools",
+            "dependencies": [
+              "21.1",
+              "21.2",
+              "21.3",
+              "21.4"
+            ],
+            "details": "1. Configure webpack dev server for hot reloading\n2. Set up electron-reload for main process reloading\n3. Implement development vs. production environment detection\n4. Configure debugging tools and extensions\n5. Set up error logging and reporting\n6. Create npm scripts for various development tasks\n7. Document the development workflow and available commands\n8. Implement basic application tests to verify the setup",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 22,
+        "title": "Implement File System Operations",
+        "description": "Develop core file system functionality for reading, writing, and managing temporary files during conversion processes",
+        "details": "Create a File System service module that handles:\n1. File selection via native dialog and drag-and-drop\n2. Reading source files and writing output files\n3. Creating and managing a temporary workspace for conversions\n4. Implementing cleanup mechanisms for temporary files\n5. Handling file metadata preservation\n6. Managing output directory selection and validation\n7. Implementing file overwrite protection and conflict resolution\n8. Creating output naming conventions and patterns\n9. Developing a queue system for file operations\n10. Error handling for file system operations",
+        "testStrategy": "1. Test file selection via dialog and drag-and-drop\n2. Verify reading and writing of various file types\n3. Validate temporary file creation and cleanup\n4. Test output directory selection and validation\n5. Verify file overwrite protection works correctly\n6. Test error handling for invalid files, permissions issues, and disk space limitations\n7. Validate file metadata preservation during operations",
+        "priority": "high",
+        "dependencies": [
+          21
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement File Selection Dialogs and Drag-and-Drop",
+            "description": "Create UI components and handlers for file selection via native dialog and drag-and-drop functionality",
+            "dependencies": [],
+            "details": "- Implement native file dialog using Electron's dialog API\n- Create drag-and-drop zones in the UI with appropriate visual feedback\n- Handle multiple file selection in both dialog and drag-and-drop\n- Implement file type filtering based on supported formats\n- Add validation for selected files (size limits, format verification)\n- Create reusable file selection service that can be called from different parts of the application",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop Core File Reading and Writing Functionality",
+            "description": "Implement services for reading source files and writing output files with proper error handling",
+            "dependencies": [
+              "22.1"
+            ],
+            "details": "- Create file reading service with support for different file types\n- Implement file writing functionality with buffering for large files\n- Add progress tracking for read/write operations\n- Implement file stream handling for efficient processing\n- Create file validation mechanisms to verify file integrity\n- Develop a queue system for managing multiple file operations\n- Implement proper error handling for file access issues (permissions, corrupted files)",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement Temporary Workspace Management",
+            "description": "Create a system for managing temporary files and directories during conversion processes",
+            "dependencies": [
+              "22.2"
+            ],
+            "details": "- Implement creation of isolated temporary directories for each conversion job\n- Develop cleanup mechanisms that run on completion, failure, or application exit\n- Add scheduled cleanup for orphaned temporary files\n- Implement workspace isolation between different conversion processes\n- Create logging for temporary file operations\n- Add recovery mechanisms for interrupted operations\n- Implement disk space monitoring to prevent workspace overflow",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Develop Output Management System",
+            "description": "Create functionality for output directory selection, file naming conventions, and conflict resolution",
+            "dependencies": [
+              "22.2"
+            ],
+            "details": "- Implement output directory selection and validation\n- Create file naming pattern system with variables (original name, date, sequence)\n- Develop conflict resolution strategies (auto-rename, overwrite confirmation, skip)\n- Implement batch renaming capabilities for multiple output files\n- Add output path validation to prevent writing to restricted locations\n- Create preview system for output paths before conversion\n- Implement directory creation if output path doesn't exist",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Metadata and Error Handling Systems",
+            "description": "Develop systems for preserving file metadata during conversions and handling file system errors",
+            "dependencies": [
+              "22.2",
+              "22.3",
+              "22.4"
+            ],
+            "details": "- Create metadata extraction and preservation system for different file types\n- Implement error recovery mechanisms for failed file operations\n- Develop comprehensive error reporting with actionable messages\n- Add retry logic for transient file system errors\n- Implement permission handling and elevation requests when needed\n- Create a transaction-like system for related file operations\n- Develop user notification system for critical file system errors",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 23,
+        "title": "Design and Implement Core UI Components",
+        "description": "Create the unified user interface with consistent design across all conversion types as specified in the UI/UX considerations",
+        "details": "Develop React components for the application UI:\n1. Create main application layout with category tabs (document, image, audio, video)\n2. Implement file input area with drag-and-drop support\n3. Design conversion settings panels that change contextually based on selected category\n4. Create progress indicators with time estimates for ongoing conversions\n5. Implement job queue display for batch processing\n6. Design output location selector and file naming options\n7. Create error and notification system\n8. Implement dark/light mode support based on system preferences\n9. Ensure accessibility features including keyboard navigation and screen reader support\n10. Design responsive layouts that adapt to window resizing",
+        "testStrategy": "1. Verify UI renders correctly in both dark and light modes\n2. Test drag-and-drop functionality with various file types\n3. Validate that contextual settings appear correctly for each category\n4. Test progress indicators with mock conversion jobs\n5. Verify accessibility using screen readers and keyboard navigation\n6. Test UI responsiveness with window resizing\n7. Validate error notifications display correctly",
+        "priority": "high",
+        "dependencies": [
+          21
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Main Application Layout and Navigation",
+            "description": "Create the core application layout with category tabs for document, image, audio, and video conversions, ensuring a responsive design that adapts to window resizing.",
+            "dependencies": [],
+            "details": "- Design and implement the main application container\n- Create navigation tabs for the four conversion categories\n- Implement tab switching logic and state management\n- Ensure layout is responsive to different window sizes\n- Add keyboard navigation between tabs\n- Implement layout container for the content areas that will change based on selected category",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop File Input and Drag-and-Drop Components",
+            "description": "Create the file input area with drag-and-drop support, file selection dialog integration, and visual feedback for user interactions.",
+            "dependencies": [
+              "23.1"
+            ],
+            "details": "- Implement drag-and-drop zone with appropriate event handlers\n- Create visual indicators for drag hover states\n- Integrate with file selection dialog for manual file selection\n- Add file validation based on selected conversion category\n- Implement file preview thumbnails where applicable\n- Create error states for invalid file selections\n- Ensure accessibility for file input methods",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Design Conversion Settings and Progress UI",
+            "description": "Implement contextual conversion settings panels that change based on the selected category, and create progress indicators with time estimates for ongoing conversions.",
+            "dependencies": [
+              "23.1",
+              "23.2"
+            ],
+            "details": "- Create modular settings panels for each conversion type\n- Implement context-aware controls that appear based on file type\n- Design and implement progress bar components with time estimation\n- Create job queue display for batch processing\n- Implement cancel and pause functionality for conversions\n- Ensure settings panels have proper form validation\n- Add tooltips and help text for complex settings",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Output Configuration Components",
+            "description": "Design and implement UI components for output location selection, file naming options, and format selection with appropriate validation.",
+            "dependencies": [
+              "23.1"
+            ],
+            "details": "- Create output location selector component\n- Implement file naming pattern interface with preview\n- Design format selection controls with appropriate options per category\n- Add overwrite confirmation dialogs\n- Implement output path validation\n- Create visual feedback for invalid configurations\n- Design batch output settings for multiple file conversions",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Theme Support and Accessibility Features",
+            "description": "Add support for dark/light mode based on system preferences and ensure all UI components are accessible with keyboard navigation and screen reader support.",
+            "dependencies": [
+              "23.1",
+              "23.2",
+              "23.3",
+              "23.4"
+            ],
+            "details": "- Implement theming system with dark and light mode variants\n- Create theme detection based on system preferences\n- Add theme toggle control\n- Ensure proper color contrast in both themes\n- Implement keyboard navigation throughout the application\n- Add ARIA attributes for screen reader support\n- Test and optimize for accessibility compliance\n- Implement focus management for interactive elements\n- Create accessible error and notification system",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 24,
+        "title": "Develop Conversion Job Management System",
+        "description": "Create the core conversion pipeline architecture and job management system to handle conversion requests, track progress, and manage results",
+        "details": "Implement a Conversion Service that:\n1. Creates and manages Conversion Job objects as defined in the data model\n2. Implements a job queue for processing multiple conversion requests\n3. Tracks conversion progress and status updates\n4. Handles job cancellation and error recovery\n5. Manages resource allocation for concurrent conversions\n6. Provides event emitters for UI progress updates\n7. Implements the ConversionSettings data model\n8. Stores job history for recent conversions\n9. Handles conversion preset saving and loading\n10. Implements proper cleanup after job completion or failure",
+        "testStrategy": "1. Test job creation with various conversion types\n2. Verify queue management with multiple jobs\n3. Validate progress tracking accuracy\n4. Test job cancellation and cleanup\n5. Verify resource management with concurrent conversions\n6. Test preset saving and loading functionality\n7. Validate job history storage and retrieval\n8. Test error handling and recovery scenarios",
+        "priority": "high",
+        "dependencies": [
+          21,
+          22
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Conversion Job Data Model",
+            "description": "Create the core data structures for representing conversion jobs, including job metadata, status tracking, and conversion settings",
+            "dependencies": [],
+            "details": "1. Define the ConversionJob class with properties for job ID, creation time, status, progress, source/target files, and error information\n2. Implement the ConversionSettings data model with format-specific parameters\n3. Create enums for job status (queued, processing, completed, failed, cancelled)\n4. Implement data validation for job creation parameters\n5. Design interfaces for job event notifications\n6. Add serialization/deserialization support for job persistence",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop Job Queue and Scheduling System",
+            "description": "Create a robust queue management system to handle multiple conversion requests with appropriate scheduling and prioritization",
+            "dependencies": [
+              "24.1"
+            ],
+            "details": "1. Implement a job queue with FIFO processing by default\n2. Add support for job prioritization\n3. Create mechanisms for adding, removing, and reordering jobs in the queue\n4. Implement job scheduling based on system resource availability\n5. Design the queue to be persistent across application restarts\n6. Add queue state change events for UI updates\n7. Implement queue throttling to prevent system overload",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Create Progress Tracking and Status Update System",
+            "description": "Implement a system to monitor conversion progress, update job status, and emit events for UI updates",
+            "dependencies": [
+              "24.1",
+              "24.2"
+            ],
+            "details": "1. Design a progress tracking mechanism with percentage completion\n2. Implement status transition logic between job states\n3. Create an event emitter system for real-time progress updates\n4. Add detailed stage tracking (e.g., initializing, processing, finalizing)\n5. Implement estimated time remaining calculations\n6. Create logging for job status changes\n7. Design the system to handle progress updates from different conversion engines",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Resource Management and Concurrency Control",
+            "description": "Develop a system to manage system resources and control concurrent conversion jobs to optimize performance",
+            "dependencies": [
+              "24.2",
+              "24.3"
+            ],
+            "details": "1. Create a resource monitor to track CPU, memory, and disk usage\n2. Implement dynamic concurrency limits based on available resources\n3. Design a resource allocation strategy for different conversion types\n4. Add priority-based resource allocation\n5. Implement throttling mechanisms for high-resource jobs\n6. Create a system to pause/resume jobs based on resource availability\n7. Add configuration options for maximum concurrent jobs",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Develop Job History and Presets Management",
+            "description": "Create systems for managing conversion job history and saving/loading conversion presets",
+            "dependencies": [
+              "24.1"
+            ],
+            "details": "1. Implement a job history storage system with configurable retention\n2. Create APIs for querying and filtering job history\n3. Design a conversion preset model for saving frequently used settings\n4. Implement preset categorization by file type\n5. Add import/export functionality for presets\n6. Create a preset management UI integration layer\n7. Implement automatic cleanup of completed jobs based on configurable rules",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 25,
+        "title": "Implement Document Conversion Engine",
+        "description": "Develop the document conversion engine supporting PDF, DOCX, and TXT formats for the MVP phase with basic formatting preservation",
+        "details": "Create a Document Conversion module that:\n1. Integrates pdf.js for PDF parsing and generation\n2. Implements mammoth.js for DOCX handling\n3. Uses turndown for HTML to markdown/text conversion\n4. Creates conversion pipelines between supported formats:\n   - PDF to DOCX using pdf.js and mammoth.js\n   - DOCX to PDF using mammoth.js and HTML rendering\n   - PDF/DOCX to TXT using appropriate extraction\n5. Implements basic formatting preservation options\n6. Handles document metadata during conversion\n7. Provides progress updates during conversion process\n8. Implements error handling for malformed documents\n9. Optimizes for performance with larger documents\n10. Supports basic settings like preserveFormatting and embedFonts",
+        "testStrategy": "1. Test conversion between all supported formats (PDF, DOCX, TXT)\n2. Verify formatting preservation in converted documents\n3. Test with various document sizes and complexities\n4. Validate metadata handling during conversion\n5. Test error handling with malformed or password-protected documents\n6. Verify progress reporting during conversion\n7. Benchmark performance with large documents",
+        "priority": "medium",
+        "dependencies": [
+          22,
+          24
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Integrate PDF.js for PDF Handling",
+            "description": "Implement the integration of PDF.js library for parsing, reading, and generating PDF documents",
+            "dependencies": [],
+            "details": "- Set up PDF.js library and dependencies\n- Create wrapper functions for PDF parsing and extraction\n- Implement PDF generation capabilities\n- Create utility functions for accessing PDF metadata\n- Develop page rendering and content extraction\n- Implement basic error handling for malformed PDFs\n- Create tests for PDF parsing and generation",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Integrate Mammoth.js for DOCX Handling",
+            "description": "Implement the integration of Mammoth.js for processing DOCX documents with formatting preservation",
+            "dependencies": [],
+            "details": "- Set up Mammoth.js library and dependencies\n- Create wrapper functions for DOCX parsing\n- Implement HTML output generation from DOCX\n- Develop style mapping configurations for formatting preservation\n- Create utility functions for accessing DOCX metadata\n- Implement error handling for malformed DOCX files\n- Create tests for DOCX processing functionality",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement PDF to DOCX Conversion Pipeline",
+            "description": "Create the conversion pipeline for transforming PDF documents to DOCX format with basic formatting preservation",
+            "dependencies": [
+              "25.1",
+              "25.2"
+            ],
+            "details": "- Develop PDF content extraction using PDF.js\n- Implement HTML intermediate format generation\n- Create DOCX generation from extracted content\n- Implement basic formatting preservation (headings, lists, tables)\n- Handle document metadata transfer between formats\n- Add progress reporting during conversion process\n- Optimize for performance with larger documents\n- Create tests for the PDF to DOCX conversion pipeline",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement DOCX to PDF Conversion Pipeline",
+            "description": "Create the conversion pipeline for transforming DOCX documents to PDF format with formatting preservation",
+            "dependencies": [
+              "25.1",
+              "25.2"
+            ],
+            "details": "- Develop DOCX to HTML conversion using Mammoth.js\n- Implement HTML rendering for PDF generation\n- Create PDF output generation with PDF.js\n- Handle document metadata transfer between formats\n- Implement font embedding options\n- Add progress reporting during conversion process\n- Optimize for performance with larger documents\n- Create tests for the DOCX to PDF conversion pipeline",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Text Extraction and Plain Text Conversion",
+            "description": "Develop functionality for extracting plain text from PDF and DOCX documents and implement TXT conversion options",
+            "dependencies": [
+              "25.1",
+              "25.2"
+            ],
+            "details": "- Integrate turndown for HTML to markdown/text conversion\n- Implement PDF to TXT extraction using PDF.js\n- Create DOCX to TXT extraction using Mammoth.js\n- Develop options for text formatting preservation\n- Implement line break and paragraph handling\n- Add character encoding options\n- Create progress reporting for text extraction\n- Implement tests for text extraction functionality",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 26,
+        "title": "Implement Image Conversion Engine",
+        "description": "Develop the image conversion engine supporting JPG, PNG, and WEBP formats for the MVP phase with quality and resize options",
+        "details": "Create an Image Conversion module that:\n1. Integrates Sharp library for high-performance image processing\n2. Implements conversion between JPG, PNG, and WEBP formats\n3. Supports quality adjustment settings for lossy formats\n4. Implements resize options (dimensions, maintain aspect ratio, etc.)\n5. Handles image metadata preservation options\n6. Supports transparency handling for formats like PNG\n7. Implements batch processing for multiple images\n8. Provides progress updates during conversion\n9. Optimizes memory usage for large images\n10. Implements error handling for corrupted images",
+        "testStrategy": "1. Test conversion between all supported formats (JPG, PNG, WEBP)\n2. Verify quality settings affect output file size appropriately\n3. Test resize operations maintain proper aspect ratios when specified\n4. Validate metadata preservation options work correctly\n5. Test transparency handling in PNG to WEBP conversions\n6. Verify batch processing with multiple images\n7. Test with various image sizes and validate memory usage\n8. Verify error handling with corrupted image files",
+        "priority": "medium",
+        "dependencies": [
+          22,
+          24
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Integrate Sharp Library for Image Processing",
+            "description": "Set up and integrate the Sharp library as the core image processing engine for the conversion module",
+            "dependencies": [],
+            "details": "1. Install Sharp library and required dependencies\n2. Create a wrapper module for Sharp functionality\n3. Implement basic image loading and validation\n4. Set up error handling for image processing operations\n5. Create unit tests for the Sharp integration\n6. Document the API for the image processing core",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Format Conversion Between JPG, PNG, and WEBP",
+            "description": "Develop the core conversion functionality to transform images between the supported formats",
+            "dependencies": [
+              "26.1"
+            ],
+            "details": "1. Implement JPG to PNG conversion\n2. Implement PNG to JPG conversion\n3. Implement JPG to WEBP conversion\n4. Implement WEBP to JPG conversion\n5. Implement PNG to WEBP conversion\n6. Implement WEBP to PNG conversion\n7. Create comprehensive tests for all conversion paths\n8. Optimize conversion operations for performance",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement Quality and Resize Options",
+            "description": "Add support for adjusting image quality and dimensions during conversion",
+            "dependencies": [
+              "26.1",
+              "26.2"
+            ],
+            "details": "1. Implement quality adjustment for lossy formats (JPG, WEBP)\n2. Add resize functionality with dimension specifications\n3. Implement aspect ratio maintenance options\n4. Create presets for common quality/size combinations\n5. Add validation for quality and size parameters\n6. Implement tests for quality and resize operations\n7. Document all available options and their effects",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Metadata and Transparency Handling",
+            "description": "Develop functionality to preserve image metadata and handle transparency across format conversions",
+            "dependencies": [
+              "26.2"
+            ],
+            "details": "1. Implement metadata extraction and preservation\n2. Add options to control which metadata is preserved\n3. Develop transparency handling for PNG format\n4. Create background color options for converting transparent images to non-transparent formats\n5. Implement tests for metadata preservation\n6. Test transparency handling across different conversion paths",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Batch Processing and Progress Reporting",
+            "description": "Add support for processing multiple images with progress updates and memory optimization",
+            "dependencies": [
+              "26.2",
+              "26.3",
+              "26.4"
+            ],
+            "details": "1. Implement batch processing queue for multiple images\n2. Add progress tracking and reporting mechanism\n3. Implement memory usage optimization for large images\n4. Add error handling for batch operations\n5. Create recovery mechanisms for partial batch failures\n6. Implement tests for batch processing\n7. Add performance benchmarking for optimization",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Integrate Sharp Library for Image Processing",
+            "description": "Set up and integrate the Sharp library for high-performance image processing within the application",
+            "dependencies": [],
+            "details": "1. Install Sharp library as a project dependency\n2. Create a wrapper module to handle Sharp initialization\n3. Implement error handling for Sharp operations\n4. Set up configuration options for memory limits\n5. Create utility functions for common Sharp operations\n6. Test Sharp integration with sample images",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Implement Format Conversion Between JPG, PNG, and WEBP",
+            "description": "Develop the core conversion functionality between the three supported image formats",
+            "dependencies": [
+              "26.6"
+            ],
+            "details": "1. Create conversion functions for each format pair (JPG→PNG, PNG→WEBP, etc.)\n2. Implement proper format detection from input files\n3. Handle format-specific options during conversion\n4. Set up default conversion parameters for each format\n5. Implement validation for supported input formats\n6. Create tests for each conversion path",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "Implement Quality and Resize Options",
+            "description": "Develop functionality for adjusting image quality and dimensions during conversion",
+            "dependencies": [
+              "26.6",
+              "26.7"
+            ],
+            "details": "1. Implement quality adjustment for lossy formats (JPG, WEBP)\n2. Create resize functionality with options for dimensions\n3. Implement aspect ratio preservation options\n4. Add support for different scaling algorithms\n5. Create presets for common quality/size combinations\n6. Implement validation for quality/resize parameters",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 9,
+            "title": "Implement Metadata and Transparency Handling",
+            "description": "Develop functionality to preserve image metadata and handle transparency across different formats",
+            "dependencies": [
+              "26.7"
+            ],
+            "details": "1. Implement metadata extraction and preservation options\n2. Create transparency handling for PNG to JPG conversions\n3. Implement alpha channel preservation for formats that support it\n4. Add background color options for transparency conversion\n5. Create tests for metadata preservation across formats\n6. Implement EXIF data handling options",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 10,
+            "title": "Implement Batch Processing and Progress Reporting",
+            "description": "Develop functionality for processing multiple images and reporting conversion progress",
+            "dependencies": [
+              "26.7",
+              "26.8"
+            ],
+            "details": "1. Create batch processing queue for multiple images\n2. Implement progress tracking during conversion\n3. Add event emitters for progress updates\n4. Optimize memory usage for large batches\n5. Implement error handling for batch operations\n6. Create cancellation mechanism for ongoing conversions\n7. Add logging for batch operations",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 27,
+        "title": "Implement User Preferences and Presets System",
+        "description": "Develop the system for managing user preferences and saved conversion presets as defined in the data models",
+        "details": "Create a Preferences and Presets module that:\n1. Implements the UserPreferences data model\n2. Stores and retrieves application settings persistently\n3. Manages default output directory preferences\n4. Implements the preset saving and management system\n5. Stores named presets for different conversion types\n6. Tracks recent conversion jobs for quick access\n7. Manages appearance settings (system/light/dark)\n8. Handles concurrent conversion limits\n9. Provides an API for other modules to access preferences\n10. Implements import/export functionality for presets",
+        "testStrategy": "1. Verify preferences are saved and loaded correctly between application restarts\n2. Test preset creation, editing, and deletion\n3. Validate preset application to conversion settings\n4. Test recent jobs tracking and loading\n5. Verify appearance settings affect UI correctly\n6. Test concurrent conversion limits are respected\n7. Validate import/export functionality for presets\n8. Test with invalid preference files and recovery",
+        "priority": "medium",
+        "dependencies": [
+          23,
+          24
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement User Preferences Data Model and Storage",
+            "description": "Create the data model for user preferences and implement persistent storage functionality",
+            "dependencies": [],
+            "details": "- Implement the UserPreferences data model with all required fields\n- Create a storage mechanism using Electron's userData directory\n- Implement functions to read/write preferences to disk\n- Add validation for preference values\n- Implement default preferences for first-time users\n- Create methods to handle application settings like appearance mode and concurrent conversion limits\n- Develop functionality for managing default output directory preferences",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop Conversion Presets Management System",
+            "description": "Create the system for saving, loading, and managing named conversion presets",
+            "dependencies": [
+              "27.1"
+            ],
+            "details": "- Design the data structure for conversion presets\n- Implement preset creation, editing, and deletion functionality\n- Create storage for named presets for different conversion types\n- Develop preset categorization by file type (document, image, audio)\n- Implement preset application to conversion settings\n- Add validation for preset data\n- Create preset duplication functionality",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement Recent Jobs Tracking System",
+            "description": "Develop functionality to track and display recent conversion jobs",
+            "dependencies": [
+              "27.1"
+            ],
+            "details": "- Design the data structure for storing recent job information\n- Implement methods to add new jobs to history\n- Create functionality to limit history size\n- Develop job metadata storage (conversion type, settings used, timestamps)\n- Implement job filtering and sorting capabilities\n- Create methods to clear history or remove individual entries\n- Add functionality to reuse settings from previous jobs",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Create Preferences API for Module Integration",
+            "description": "Develop a comprehensive API for other application modules to access and modify preferences",
+            "dependencies": [
+              "27.1",
+              "27.2",
+              "27.3"
+            ],
+            "details": "- Design a clean API interface for accessing preferences\n- Implement methods for other modules to read and update preferences\n- Create event system for preference changes notification\n- Add validation for external preference modifications\n- Implement caching for frequently accessed preferences\n- Create documentation for the preferences API\n- Develop unit tests for the API functionality",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Preferences Import/Export Functionality",
+            "description": "Create functionality to import and export user preferences and presets",
+            "dependencies": [
+              "27.1",
+              "27.2",
+              "27.4"
+            ],
+            "details": "- Design the import/export file format (JSON)\n- Implement export functionality for all preferences\n- Create selective export for specific presets\n- Develop import validation to prevent corrupted preferences\n- Implement merge strategies for importing (replace all, merge, selective)\n- Add error handling for import/export operations\n- Create user-friendly import/export UI integration points\n- Implement backup creation before importing new preferences",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 28,
+        "title": "Implement Basic Audio Conversion with FFmpeg",
+        "description": "Develop the foundation for audio conversion functionality using FFmpeg for the Phase 2 formats (MP3, WAV, AAC)",
+        "details": "Create an Audio Conversion module that:\n1. Integrates FFmpeg for audio processing\n2. Implements proper FFmpeg binary management for macOS\n3. Creates conversion pipelines for MP3, WAV, and AAC formats\n4. Supports basic audio settings (bitrate, sample rate, channels)\n5. Provides progress updates during conversion\n6. Handles audio metadata preservation\n7. Implements error handling for corrupted audio files\n8. Optimizes for performance with larger audio files\n9. Manages FFmpeg process resources efficiently\n10. Supports batch processing for multiple audio files",
+        "testStrategy": "1. Test conversion between all supported audio formats\n2. Verify audio quality settings affect output appropriately\n3. Test with various audio durations and file sizes\n4. Validate metadata preservation during conversion\n5. Test error handling with corrupted audio files\n6. Verify progress reporting during conversion\n7. Benchmark performance with large audio files\n8. Test resource usage during conversion",
+        "priority": "low",
+        "dependencies": [
+          22,
+          24
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement FFmpeg Integration and Binary Management",
+            "description": "Set up FFmpeg integration for the application and implement proper binary management for macOS",
+            "dependencies": [],
+            "details": "- Research and implement the best approach for FFmpeg binary distribution with the app\n- Create a binary manager that handles FFmpeg installation/bundling\n- Implement version checking and compatibility validation\n- Set up proper path management for FFmpeg binaries\n- Create utility functions for executing FFmpeg commands\n- Implement binary verification to ensure integrity\n- Handle permissions for executing FFmpeg on macOS\n<info added on 2025-08-29T00:59:05.388Z>\nFFmpeg integration has been successfully completed with the following implementations:\n\n1. FFmpeg binary management service using ffmpeg-static for cross-platform compatibility\n2. Audio conversion service with support for MP3, WAV, AAC, FLAC, and OGG formats\n3. Configurable audio settings (bitrate, sample rate, channels)\n4. Progress reporting and metadata preservation\n5. Error handling and resource management\n6. IPC handlers for Electron main process integration\n7. React UI component for audio conversion with file selection, settings, and progress display\n8. Complete integration into the main application with navigation\n\nThe audio conversion functionality is now fully operational and ready for testing.\n</info added on 2025-08-29T00:59:05.388Z>",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop Audio Conversion Pipelines",
+            "description": "Create conversion pipelines for MP3, WAV, and AAC formats using FFmpeg",
+            "dependencies": [
+              "28.1"
+            ],
+            "details": "- Implement MP3 to WAV conversion pipeline\n- Implement WAV to MP3 conversion pipeline\n- Implement AAC to MP3/WAV conversion pipeline\n- Implement MP3/WAV to AAC conversion pipeline\n- Create a unified conversion interface for all audio formats\n- Develop command generation for each conversion type\n- Implement format detection and validation",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement Audio Settings Configuration",
+            "description": "Develop functionality to configure and apply audio settings like bitrate, sample rate, and channels during conversion",
+            "dependencies": [
+              "28.2"
+            ],
+            "details": "- Create settings models for audio conversion parameters\n- Implement bitrate configuration (CBR and VBR options)\n- Implement sample rate selection and validation\n- Implement channel configuration (mono/stereo)\n- Create command-line argument generators for FFmpeg based on settings\n- Implement settings validation to prevent invalid configurations\n- Create presets for common quality profiles",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Metadata Preservation and Progress Reporting",
+            "description": "Develop functionality to preserve audio metadata during conversion and provide progress updates",
+            "dependencies": [
+              "28.2"
+            ],
+            "details": "- Implement metadata extraction from source audio files\n- Create metadata preservation during conversion process\n- Implement ID3 tag handling for MP3 files\n- Develop progress monitoring for FFmpeg processes\n- Create event system for reporting conversion progress\n- Implement time remaining estimation\n- Handle metadata for different audio formats consistently",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Error Handling and Resource Management",
+            "description": "Develop robust error handling for audio conversion and efficient management of FFmpeg processes",
+            "dependencies": [
+              "28.1",
+              "28.2"
+            ],
+            "details": "- Implement detection and handling of corrupted audio files\n- Create error classification system for different failure types\n- Implement resource limits for FFmpeg processes\n- Develop cleanup mechanisms for incomplete conversions\n- Implement batch processing with proper resource allocation\n- Create retry mechanisms for transient failures\n- Implement logging for debugging conversion issues\n- Develop graceful termination of FFmpeg processes",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 29,
+        "title": "Implement Basic Video Conversion with FFmpeg",
+        "description": "Develop the foundation for video conversion functionality using FFmpeg for the Phase 2 formats (MP4, MOV)",
+        "details": "Create a Video Conversion module that:\n1. Extends the FFmpeg integration for video processing\n2. Implements conversion between MP4 and MOV formats\n3. Supports basic video settings (resolution, bitrate, frame rate)\n4. Handles audio stream configuration in video files\n5. Provides detailed progress updates during conversion\n6. Preserves video metadata during conversion\n7. Implements error handling for corrupted video files\n8. Optimizes for performance and resource usage\n9. Manages FFmpeg process with appropriate resource limits\n10. Supports cancellation of long-running video conversions",
+        "testStrategy": "1. Test conversion between supported video formats\n2. Verify video quality settings affect output appropriately\n3. Test with various video durations and resolutions\n4. Validate audio stream handling in video conversions\n5. Test error handling with corrupted video files\n6. Verify progress reporting accuracy during conversion\n7. Test cancellation of in-progress conversions\n8. Benchmark performance with different video sizes",
+        "priority": "low",
+        "dependencies": [
+          22,
+          24,
+          28
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Extend FFmpeg Integration for Video Processing",
+            "description": "Enhance the existing FFmpeg integration to support video processing capabilities, including proper binary management and process handling for video operations.",
+            "dependencies": [],
+            "details": "- Create video-specific FFmpeg command builders\n- Implement proper video stream handling in FFmpeg wrapper\n- Set up appropriate FFmpeg configurations for video processing\n- Ensure FFmpeg binary compatibility with video codecs\n- Create utility functions for video format detection and validation",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement MP4 and MOV Conversion Pipeline",
+            "description": "Develop the core conversion functionality between MP4 and MOV formats with proper codec selection and container handling.",
+            "dependencies": [
+              "29.1"
+            ],
+            "details": "- Create MP4 to MOV conversion pipeline\n- Create MOV to MP4 conversion pipeline\n- Implement proper codec selection for each format\n- Handle container-specific requirements\n- Preserve video metadata during conversion\n- Implement validation for input/output formats",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement Video and Audio Settings Configuration",
+            "description": "Develop the functionality to configure and apply video settings (resolution, bitrate, frame rate) and audio stream settings during conversion.",
+            "dependencies": [
+              "29.1",
+              "29.2"
+            ],
+            "details": "- Create resolution adjustment functionality\n- Implement bitrate configuration for video streams\n- Add frame rate control options\n- Develop audio stream configuration (channels, sample rate, bitrate)\n- Create presets for common video quality profiles\n- Implement settings validation to prevent invalid configurations",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Progress Tracking and Cancellation Support",
+            "description": "Develop a system to track conversion progress in detail and allow users to cancel ongoing video conversions.",
+            "dependencies": [
+              "29.1",
+              "29.2"
+            ],
+            "details": "- Create frame-based progress calculation\n- Implement time-remaining estimation\n- Develop event-based progress reporting\n- Add conversion cancellation functionality\n- Implement proper resource cleanup after cancellation\n- Create UI hooks for progress updates",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Resource Optimization and Error Handling",
+            "description": "Optimize the video conversion process for performance and resource usage, and implement robust error handling for various failure scenarios.",
+            "dependencies": [
+              "29.1",
+              "29.2",
+              "29.3",
+              "29.4"
+            ],
+            "details": "- Implement memory usage optimization for large videos\n- Add CPU usage throttling options\n- Create error detection for corrupted video files\n- Implement recovery mechanisms for partial conversions\n- Add detailed error reporting with suggestions\n- Create logging system for conversion operations\n- Implement resource limits for FFmpeg processes",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 30,
+        "title": "Implement Application Packaging and Distribution",
+        "description": "Create the build and packaging system for distributing the application as a standalone macOS application",
+        "details": "Implement the application packaging system that:\n1. Configures electron-builder for macOS packaging\n2. Bundles all required dependencies including FFmpeg binaries\n3. Implements code signing for macOS distribution\n4. Creates proper application icons and branding\n5. Configures application metadata and version information\n6. Implements auto-update mechanism for future updates\n7. Optimizes bundle size by excluding unnecessary dependencies\n8. Creates installation instructions and documentation\n9. Implements crash reporting system\n10. Configures application permissions for file system access",
+        "testStrategy": "1. Verify application builds successfully for macOS\n2. Test installation process on clean macOS systems\n3. Validate all bundled dependencies work correctly\n4. Test code signing and Gatekeeper approval\n5. Verify application icons and branding appear correctly\n6. Test auto-update mechanism with mock updates\n7. Validate crash reporting functionality\n8. Test application permissions and file system access",
+        "priority": "medium",
+        "dependencies": [
+          21,
+          22,
+          23,
+          24,
+          25,
+          26
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Configure electron-builder for macOS packaging",
+            "description": "Set up electron-builder with proper configuration for macOS application packaging, including directory structure and build scripts.",
+            "dependencies": [],
+            "details": "1. Install electron-builder as a dev dependency\n2. Create build configuration in package.json or electron-builder.yml\n3. Configure output formats (DMG, ZIP)\n4. Set up build scripts in package.json\n5. Configure target macOS versions\n6. Test basic build process\n7. Implement build pipeline integration",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Bundle dependencies and FFmpeg binaries",
+            "description": "Implement the bundling of all required dependencies, with special focus on FFmpeg binaries and optimization of the final bundle size.",
+            "dependencies": [
+              "30.1"
+            ],
+            "details": "1. Identify all runtime dependencies needed for the application\n2. Configure FFmpeg binary inclusion for macOS\n3. Implement dependency tree analysis to exclude unnecessary packages\n4. Configure electron-builder to properly include native dependencies\n5. Optimize bundle size through tree-shaking and module analysis\n6. Test bundled application to ensure all dependencies are properly included\n7. Document the dependency bundling process",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement code signing and application metadata",
+            "description": "Set up code signing for macOS distribution and configure application metadata, icons, and branding elements.",
+            "dependencies": [
+              "30.1"
+            ],
+            "details": "1. Obtain or create Apple Developer certificate for code signing\n2. Configure electron-builder for code signing\n3. Create application icons in required formats (icns)\n4. Design and implement application branding elements\n5. Configure application metadata (name, version, description)\n6. Set up entitlements for macOS security requirements\n7. Test signed application with macOS Gatekeeper\n8. Create installation instructions for end users",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement auto-update mechanism",
+            "description": "Develop and configure the auto-update system to allow for seamless application updates in the future.",
+            "dependencies": [
+              "30.1",
+              "30.3"
+            ],
+            "details": "1. Integrate electron-updater library\n2. Configure update server endpoints\n3. Implement update checking mechanism\n4. Create update notification UI\n5. Implement download and installation process\n6. Add version comparison logic\n7. Test update process with mock releases\n8. Implement rollback mechanism for failed updates\n9. Configure update frequency and user preferences",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Configure crash reporting and permissions",
+            "description": "Implement crash reporting system and configure proper application permissions for file system access on macOS.",
+            "dependencies": [
+              "30.1",
+              "30.3"
+            ],
+            "details": "1. Integrate crash reporting library (e.g., Sentry, electron-crash-reporter)\n2. Configure crash data collection and privacy settings\n3. Implement crash report sending mechanism\n4. Set up proper file system permissions in macOS entitlements\n5. Configure sandbox permissions for file access\n6. Test application permissions with various file operations\n7. Create user-facing permission request dialogs\n8. Document troubleshooting steps for permission issues",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-22T11:07:50.062Z",
+      "updated": "2025-08-30T06:58:59.966Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

@@ -1,0 +1,332 @@
+.unified-converter {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.converter-section {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin-bottom: 20px;
+}
+
+.converter-section h2 {
+  color: #2c3e50;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.detected-category {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.category-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.file-selection {
+  margin-bottom: 30px;
+}
+
+.selected-files {
+  margin-top: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.selected-files h3 {
+  color: #495057;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 15px 0;
+}
+
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border: 1px solid #e9ecef;
+  transition: all 0.2s ease;
+}
+
+.file-item:hover {
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.file-name {
+  flex: 1;
+  font-weight: 500;
+  color: #2c3e50;
+  margin-right: 10px;
+}
+
+.file-type {
+  color: #6c757d;
+  font-size: 12px;
+  font-weight: 500;
+  background: #e9ecef;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.file-category {
+  color: #667eea;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.remove-file-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.remove-file-btn:hover {
+  background: #c82333;
+  transform: scale(1.1);
+}
+
+.remove-file-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.conversion-controls {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.format-select {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.format-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.format-select optgroup {
+  font-weight: 600;
+  color: #495057;
+}
+
+.format-select option {
+  font-weight: normal;
+  color: #2c3e50;
+}
+
+.convert-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 200px;
+}
+
+.convert-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.convert-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.conversion-success,
+.conversion-paused,
+.conversion-error,
+.conversion-cancelled {
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.conversion-success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.conversion-paused {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.conversion-error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.conversion-cancelled {
+  background: #e2e3e5;
+  color: #383d41;
+  border: 1px solid #d6d8db;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .unified-converter {
+    padding: 15px;
+  }
+  
+  .converter-section {
+    padding: 20px;
+  }
+  
+  .converter-section h2 {
+    font-size: 24px;
+  }
+  
+  .file-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .file-name {
+    margin-right: 0;
+  }
+  
+  .remove-file-btn {
+    align-self: flex-end;
+  }
+  
+  .conversion-controls {
+    gap: 15px;
+  }
+  
+  .format-select {
+    max-width: 100%;
+  }
+  
+  .convert-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .unified-converter {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
+  
+  .converter-section {
+    background: #2d2d2d;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .converter-section h2 {
+    color: #ffffff;
+  }
+  
+  .selected-files {
+    background: #3a3a3a;
+  }
+  
+  .selected-files h3 {
+    color: #e9ecef;
+  }
+  
+  .file-item {
+    background: #2d2d2d;
+    border-color: #4a4a4a;
+  }
+  
+  .file-item:hover {
+    border-color: #667eea;
+    background: #3a3a3a;
+  }
+  
+  .file-name {
+    color: #ffffff;
+  }
+  
+  .file-type {
+    background: #4a4a4a;
+    color: #adb5bd;
+  }
+  
+  .format-select {
+    background: #2d2d2d;
+    border-color: #4a4a4a;
+    color: #ffffff;
+  }
+  
+  .format-select:focus {
+    border-color: #667eea;
+  }
+  
+  .format-select optgroup {
+    color: #adb5bd;
+  }
+  
+  .format-select option {
+    color: #ffffff;
+  }
+}

@@ -1,0 +1,307 @@
+/* User Preferences Button Styles */
+.user-preferences-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary, #ffffff);
+  border: 1px solid var(--border-color, #d1d5db);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-preferences-button:hover {
+  background: var(--bg-hover, #f3f4f6);
+  border-color: var(--border-hover, #9ca3af);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-preferences-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.user-preferences-button:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: var(--accent-color, #2563eb);
+}
+
+/* Size Variants */
+.user-preferences-button.small {
+  padding: 6px 8px;
+  font-size: 0.75rem;
+  gap: 4px;
+}
+
+.user-preferences-button.medium {
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  gap: 6px;
+}
+
+.user-preferences-button.large {
+  padding: 12px 16px;
+  font-size: 1rem;
+  gap: 8px;
+}
+
+/* Icon-only variant */
+.user-preferences-button.icon {
+  aspect-ratio: 1;
+  padding: 8px;
+}
+
+.user-preferences-button.icon.small {
+  padding: 6px;
+}
+
+.user-preferences-button.icon.large {
+  padding: 12px;
+}
+
+/* Text-only variant */
+.user-preferences-button.text {
+  color: var(--text-primary, #111827);
+}
+
+/* Both icon and text variant */
+.user-preferences-button.both {
+  color: var(--text-primary, #111827);
+}
+
+/* Icon styles */
+.preferences-icon {
+  font-size: 1.1em;
+  line-height: 1;
+  display: inline-block;
+}
+
+.user-preferences-button.small .preferences-icon {
+  font-size: 1em;
+}
+
+.user-preferences-button.large .preferences-icon {
+  font-size: 1.2em;
+}
+
+/* Text styles */
+.preferences-text {
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Accent variant */
+.user-preferences-button.accent {
+  background: var(--accent-color, #2563eb);
+  color: white;
+  border-color: var(--accent-color, #2563eb);
+}
+
+.user-preferences-button.accent:hover {
+  background: var(--accent-hover, #1d4ed8);
+  border-color: var(--accent-hover, #1d4ed8);
+}
+
+/* Ghost variant */
+.user-preferences-button.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-secondary, #6b7280);
+}
+
+.user-preferences-button.ghost:hover {
+  background: var(--bg-hover, #f3f4f6);
+  color: var(--text-primary, #111827);
+  border-color: var(--border-color, #d1d5db);
+}
+
+/* Minimal variant */
+.user-preferences-button.minimal {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary, #6b7280);
+  padding: 4px;
+}
+
+.user-preferences-button.minimal:hover {
+  background: var(--bg-hover, #f3f4f6);
+  color: var(--text-primary, #111827);
+}
+
+.user-preferences-button.minimal:focus {
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Disabled state */
+.user-preferences-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.user-preferences-button:disabled:hover {
+  background: var(--bg-primary, #ffffff);
+  border-color: var(--border-color, #d1d5db);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Loading state */
+.user-preferences-button.loading {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.user-preferences-button.loading .preferences-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Tooltip enhancement */
+.user-preferences-button[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--tooltip-bg, #1f2937);
+  color: var(--tooltip-text, #ffffff);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  z-index: 1000;
+  margin-bottom: 4px;
+  opacity: 0;
+  animation: tooltipFadeIn 0.2s ease-out 0.5s forwards;
+}
+
+.user-preferences-button[title]:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--tooltip-bg, #1f2937);
+  z-index: 1000;
+  margin-bottom: -4px;
+  opacity: 0;
+  animation: tooltipFadeIn 0.2s ease-out 0.5s forwards;
+}
+
+@keyframes tooltipFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .user-preferences-button {
+    --bg-primary: #374151;
+    --bg-hover: #4b5563;
+    --border-color: #4b5563;
+    --border-hover: #6b7280;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --accent-color: #3b82f6;
+    --accent-hover: #2563eb;
+    --tooltip-bg: #1f2937;
+    --tooltip-text: #ffffff;
+  }
+  
+  .user-preferences-button.ghost {
+    color: var(--text-secondary, #d1d5db);
+  }
+  
+  .user-preferences-button.ghost:hover {
+    color: var(--text-primary, #f9fafb);
+  }
+  
+  .user-preferences-button.minimal {
+    color: var(--text-secondary, #d1d5db);
+  }
+  
+  .user-preferences-button.minimal:hover {
+    color: var(--text-primary, #f9fafb);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .user-preferences-button {
+    border-width: 2px;
+  }
+  
+  .user-preferences-button:focus {
+    box-shadow: 0 0 0 3px currentColor;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .user-preferences-button {
+    transition: none;
+  }
+  
+  .user-preferences-button:hover {
+    transform: none;
+  }
+  
+  .user-preferences-button:active {
+    transform: none;
+  }
+  
+  .user-preferences-button.loading .preferences-icon {
+    animation: none;
+  }
+  
+  .user-preferences-button[title]:hover::after,
+  .user-preferences-button[title]:hover::before {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .user-preferences-button {
+    min-height: 44px; /* iOS touch target minimum */
+    min-width: 44px;
+  }
+  
+  .user-preferences-button.small {
+    min-height: 36px;
+    min-width: 36px;
+  }
+  
+  .user-preferences-button.large {
+    min-height: 52px;
+    min-width: 52px;
+  }
+  
+  /* Hide tooltips on mobile */
+  .user-preferences-button[title]:hover::after,
+  .user-preferences-button[title]:hover::before {
+    display: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .user-preferences-button {
+    display: none;
+  }
+}

@@ -1,0 +1,133 @@
+# Auto-updater configuration for Convert app
+# This file configures electron-updater to check for updates from GitHub releases
+
+provider: github
+owner: convert-app
+repo: convert
+
+# Update channel configuration
+# Use 'latest' for stable releases, 'beta' for pre-releases
+channel: latest
+
+# Update check configuration
+updaterCacheDirName: convert-updater
+
+# Request timeout in milliseconds
+requestTimeout: 60000
+
+# Whether to allow downgrades
+allowDowngrade: false
+
+# Whether to allow prereleases
+allowPrerelease: false
+
+# Update check interval (in milliseconds)
+# 24 hours = 24 * 60 * 60 * 1000 = 86400000
+checkUpdateInterval: 86400000
+
+# GitHub API configuration
+githubOptions:
+  # Use GitHub API v3
+  host: api.github.com
+  protocol: https
+  
+  # Custom headers for GitHub API requests
+  headers:
+    Accept: "application/vnd.github.v3+json"
+    User-Agent: "Convert-App-Updater/1.0.0"
+
+# Download configuration
+downloadOptions:
+  # Resume downloads if interrupted
+  resumeOnFail: true
+  
+  # Maximum number of download retries
+  maxRetries: 3
+  
+  # Retry delay in milliseconds
+  retryDelay: 2000
+
+# Signature verification (disabled for now, can be enabled with code signing)
+verifySignature: false
+
+# Differential downloads (for faster updates)
+differentialDownload: true
+
+# Auto-install updates after download
+autoInstallOnAppQuit: true
+
+# Show download progress
+showDownloadProgress: true
+
+# Logging configuration
+logger:
+  level: info
+  
+# Platform-specific configurations
+platforms:
+  darwin:
+    # macOS-specific settings
+    autoRunOnOSStartup: false
+    createDesktopShortcut: false
+    createStartMenuShortcut: false
+    
+  win32:
+    # Windows-specific settings
+    autoRunOnOSStartup: false
+    createDesktopShortcut: true
+    createStartMenuShortcut: true
+    
+  linux:
+    # Linux-specific settings
+    autoRunOnOSStartup: false
+    createDesktopShortcut: true
+    createStartMenuShortcut: false
+
+# Update notification settings
+notifications:
+  # Show notification when update is available
+  updateAvailable: true
+  
+  # Show notification when update is downloaded
+  updateDownloaded: true
+  
+  # Show notification on update errors
+  updateError: true
+  
+  # Auto-hide notifications after specified time (milliseconds)
+  autoHideDelay: 5000
+
+# Rollback configuration
+rollback:
+  # Enable automatic rollback on startup failure
+  enabled: true
+  
+  # Maximum number of startup failures before rollback
+  maxFailures: 3
+  
+  # Timeout for detecting startup failure (milliseconds)
+  startupTimeout: 30000
+
+# Development and testing
+development:
+  # Skip update checks in development mode
+  skipUpdateCheck: true
+  
+  # Use local update server for testing
+  useLocalServer: false
+  localServerUrl: "http://localhost:8080"
+
+# Security settings
+security:
+  # Verify SSL certificates
+  rejectUnauthorized: true
+  
+  # Check for minimum version requirements
+  enforceMinimumVersion: false
+  minimumVersion: "1.0.0"
+  
+  # Block updates from untrusted sources
+  trustedSources:
+    - "github.com"
+    - "api.github.com"
+    - "objects.githubusercontent.com"

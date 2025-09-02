@@ -1,0 +1,303 @@
+/* File Converter Component Styles */
+.file-converter {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.file-converter h2 {
+  color: #1f2937;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+.file-selection {
+  margin-bottom: 2rem;
+}
+
+.selected-files {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.selected-files h3 {
+  margin: 0 0 1rem 0;
+  color: #374151;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.file-item:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.file-item:last-child {
+  margin-bottom: 0;
+}
+
+.file-name {
+  flex: 1;
+  font-weight: 500;
+  color: #374151;
+  margin-right: 1rem;
+  word-break: break-word;
+}
+
+.file-path {
+  flex: 2;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-right: 1rem;
+  word-break: break-all;
+}
+
+.file-type {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  background-color: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  font-family: monospace;
+}
+
+.remove-file-btn {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-file-btn:hover {
+  background-color: #fecaca;
+  border-color: #f87171;
+}
+
+.remove-file-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Conversion Controls */
+.conversion-controls {
+  margin-bottom: 2rem;
+}
+
+.format-selection {
+  margin-bottom: 1.5rem;
+}
+
+.format-selection label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.format-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.format-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.convert-btn {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.convert-btn:hover {
+  background-color: #2563eb;
+}
+
+.convert-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Conversion Status */
+.conversion-status {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.conversion-status.idle {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.conversion-status.ready {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.conversion-status.converting {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.conversion-status.completed {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.conversion-status.error {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+/* Progress Bar */
+.progress-container {
+  margin-top: 1rem;
+  background-color: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #3b82f6;
+  transition: width 0.3s ease;
+  border-radius: 4px;
+}
+
+.progress-text {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .file-converter {
+    padding: 1rem;
+  }
+  
+  .file-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .file-name,
+  .file-path {
+    margin-right: 0;
+  }
+  
+  .remove-file-btn {
+    align-self: flex-end;
+  }
+}
+
+/* Dark Theme Support */
+@media (prefers-color-scheme: dark) {
+  .file-converter h2 {
+    color: #f9fafb;
+  }
+  
+  .selected-files {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+  
+  .selected-files h3 {
+    color: #f3f4f6;
+  }
+  
+  .file-item {
+    background-color: #111827;
+    border-color: #374151;
+  }
+  
+  .file-item:hover {
+    border-color: #4b5563;
+  }
+  
+  .file-name {
+    color: #f3f4f6;
+  }
+  
+  .file-path {
+    color: #d1d5db;
+  }
+  
+  .file-type {
+    background-color: #374151;
+    color: #d1d5db;
+  }
+  
+  .format-selection label {
+    color: #f3f4f6;
+  }
+  
+  .format-select {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #f3f4f6;
+  }
+  
+  .conversion-status.idle {
+    background-color: #374151;
+    color: #d1d5db;
+  }
+}
