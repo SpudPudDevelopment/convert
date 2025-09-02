@@ -30,6 +30,11 @@ dist/
 
 # Electron
 electron-builder.yml
+.electron-cache/
+.electron-builder/
+out/
+app/
+packages/
 
 # Coverage directory used by tools like istanbul
 coverage/
