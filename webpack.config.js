@@ -53,11 +53,24 @@ module.exports = {
       inject: 'body',
       templateParameters: {
         isProduction: !isDevelopment
+      },
+      minify: !isDevelopment ? false : {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
       }
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      'process.env.IS_PRODUCTION': JSON.stringify(!isDevelopment)
+      'process.env.IS_PRODUCTION': JSON.stringify(!isDevelopment),
+      '__IS_PRODUCTION__': JSON.stringify(!isDevelopment)
     }),
     new webpack.ProvidePlugin({
       global: 'global',

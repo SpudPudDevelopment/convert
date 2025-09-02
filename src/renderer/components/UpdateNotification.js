@@ -68,14 +68,15 @@ const UpdateNotification = () => {
     };
 
     const handleUpdateError = (event, error) => {
+      const errorMessage = error?.message || 'Unknown update error';
       setUpdateState(prev => ({
         ...prev,
         checking: false,
         downloading: false,
-        error: error.message
+        error: errorMessage
       }));
       if (window.notificationSystem) {
-        window.notificationSystem.error(`Update error: ${error.message}`);
+        window.notificationSystem.error(`Update error: ${errorMessage}`);
       }
     };
 
@@ -142,8 +143,9 @@ const UpdateNotification = () => {
         }
       }
     } catch (error) {
+      const errorMessage = error?.message || 'Unknown error';
       if (window.notificationSystem) {
-        window.notificationSystem.error(`Failed to check for updates: ${error.message}`);
+        window.notificationSystem.error(`Failed to check for updates: ${errorMessage}`);
       }
     }
   };
@@ -157,14 +159,19 @@ const UpdateNotification = () => {
 
     try {
       const result = await window.electronAPI.invoke('download-update');
-      if (!result.success) {
-        throw new Error(result.error || 'Download failed');
+      if (result.success) {
+        setUpdateState(prev => ({ ...prev, downloading: false, downloaded: true }));
+        setShowProgressDialog(false);
+        setShowRestartDialog(true);
+      } else {
+        throw new Error(result.message || 'Download failed');
       }
     } catch (error) {
-      setUpdateState(prev => ({ ...prev, downloading: false }));
+      const errorMessage = error?.message || 'Download failed';
+      setUpdateState(prev => ({ ...prev, downloading: false, error: errorMessage }));
       setShowProgressDialog(false);
       if (window.notificationSystem) {
-        window.notificationSystem.error(`Download failed: ${error.message}`);
+        window.notificationSystem.error(`Download failed: ${errorMessage}`);
       }
     }
   };
@@ -173,10 +180,19 @@ const UpdateNotification = () => {
     if (!window.electronAPI) return;
 
     try {
-      await window.electronAPI.installUpdate();
+      const result = await window.electronAPI.invoke('install-update');
+      if (result.success) {
+        // Update will restart the app
+        if (window.notificationSystem) {
+          window.notificationSystem.success('Update installed successfully!');
+        }
+      } else {
+        throw new Error(result.message || 'Installation failed');
+      }
     } catch (error) {
+      const errorMessage = error?.message || 'Installation failed';
       if (window.notificationSystem) {
-        window.notificationSystem.error(`Installation failed: ${error.message}`);
+        window.notificationSystem.error(`Installation failed: ${errorMessage}`);
       }
     }
   };
@@ -195,8 +211,9 @@ const UpdateNotification = () => {
         throw new Error(result.reason || 'Rollback failed');
       }
     } catch (error) {
+      const errorMessage = error?.message || 'Rollback failed';
       if (window.notificationSystem) {
-        window.notificationSystem.error(`Rollback failed: ${error.message}`);
+        window.notificationSystem.error(`Rollback failed: ${errorMessage}`);
       }
     }
   };

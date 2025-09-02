@@ -44,14 +44,15 @@ button:focus,
 input:focus,
 select:focus,
 textarea:focus {
-  outline: 2px solid #667eea;
+  outline: 2px solid var(--accent-color, #3b82f6);
   outline-offset: 2px;
 }
 
 /* Disable text selection on UI elements */
-.App-header,
-.feature,
-.primary-button {
+.header,
+.nav-box,
+.drag-drop-zone,
+.convert-button {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

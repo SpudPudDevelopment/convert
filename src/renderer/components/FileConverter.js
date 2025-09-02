@@ -6,10 +6,6 @@ import ProgressBar from './ProgressBar';
 import JobQueue from './JobQueue';
 import RecentJobsPanel from './RecentJobsPanel';
 import { useRecentJobs } from '../hooks/useRecentJobs';
-import '../styles/FileConverter.css';
-import '../styles/DragDropZone.css';
-import '../styles/OutputConfiguration.css';
-import '../styles/ConversionSettings.css';
 
 // Get category title
 const getCategoryTitle = (category) => {
@@ -22,6 +18,8 @@ const getCategoryTitle = (category) => {
       return 'Audio';
     case 'video':
       return 'Video';
+    case 'universal':
+      return 'Universal';
     default:
       return 'File';
   }
@@ -72,9 +70,33 @@ const formatOptions = {
 // Format options for each category
 const getFormatOptions = (category) => {
   switch (category) {
+    case 'universal':
+      // Universal category supports all formats
+      return [
+        // Document formats
+        { value: 'pdf', label: 'PDF (.pdf)' },
+        { value: 'docx', label: 'Word Document (.docx)' },
+        { value: 'txt', label: 'Plain Text (.txt)' },
+        { value: 'rtf', label: 'Rich Text Format (.rtf)' },
+        // Image formats
+        { value: 'jpg', label: 'JPEG (.jpg)' },
+        { value: 'png', label: 'PNG (.png)' },
+        { value: 'webp', label: 'WebP (.webp)' },
+        { value: 'gif', label: 'GIF (.gif)' },
+        // Audio formats
+        { value: 'mp3', label: 'MP3 (.mp3)' },
+        { value: 'wav', label: 'WAV (.wav)' },
+        { value: 'flac', label: 'FLAC (.flac)' },
+        { value: 'aac', label: 'AAC (.aac)' },
+        // Video formats
+        { value: 'mp4', label: 'MP4 (.mp4)' },
+        { value: 'avi', label: 'AVI (.avi)' },
+        { value: 'mov', label: 'QuickTime (.mov)' },
+        { value: 'mkv', label: 'Matroska (.mkv)' }
+      ];
     case 'document':
       return [
-        { value: 'pdf', label: 'PDF' },
+        { value: 'pdf', label: 'PDF (.pdf)' },
         { value: 'docx', label: 'Word Document (.docx)' },
         { value: 'doc', label: 'Word Document (.doc)' },
         { value: 'xlsx', label: 'Excel Spreadsheet (.xlsx)' },
@@ -653,11 +675,11 @@ const FileConverter = ({ category = 'document' }) => {
   };
 
   return (
-    <div className="file-converter">
-      <div className="converter-section">
-        <h2>{getCategoryTitle(category)} Conversion</h2>
+    <div className="file-converter-container">
+      <div className="conversion-settings">
+        <h2 className="settings-label">{getCategoryTitle(category)} Conversion</h2>
         
-        <div className="file-selection">
+        <div className="settings-section">
           <DragDropZone
             onFilesSelected={handleFilesSelected}
             disabled={conversionStatus === 'converting'}
@@ -666,15 +688,15 @@ const FileConverter = ({ category = 'document' }) => {
           />
           
           {selectedFiles.length > 0 && (
-            <div className="selected-files">
-              <h3>Selected Files ({selectedFiles.length}):</h3>
+            <div className="file-list">
+              <h3 className="settings-label">Selected Files ({selectedFiles.length}):</h3>
               <ul className="file-list">
                 {selectedFiles.map((file, index) => (
                   <li key={index} className="file-item">
                     <span className="file-name">{file.name}</span>
-                    <span className="file-type">.{file.type}</span>
+                    <span className="file-size">.{file.type}</span>
                     <button 
-                      className="remove-file-btn"
+                      className="file-remove"
                       onClick={() => removeFile(index)}
                       disabled={conversionStatus === 'converting'}
                       aria-label={`Remove ${file.name}`}
@@ -708,40 +730,46 @@ const FileConverter = ({ category = 'document' }) => {
               onPresetChange={setSelectedPreset}
             />
             
-            <div className="conversion-controls">
-               <select 
-                 value={outputFormat} 
-                 onChange={(e) => setOutputFormat(e.target.value)}
-                 className="format-select"
-               >
-                 <option value="">Select output format</option>
-                 {getFormatOptions(category).map(format => (
-                   <option key={format.value} value={format.value}>
-                     {format.label}
-                   </option>
-                 ))}
-               </select>
-             
-             <button 
-               className="convert-btn"
-               onClick={handleConvert}
-               disabled={conversionStatus === 'converting' || !outputFormat || !outputConfig.outputDirectory}
-             >
-               {conversionStatus === 'converting' ? 'Converting...' : 'Convert Files'}
-             </button>
+            <div className="settings-section">
+              <label className="settings-label">Output Format:</label>
+              <div className="settings-controls">
+                <select 
+                  value={outputFormat} 
+                  onChange={(e) => setOutputFormat(e.target.value)}
+                  className="select-control"
+                >
+                  <option value="">Select output format</option>
+                  {getFormatOptions(category).map(format => (
+                    <option key={format.value} value={format.value}>
+                      {format.label}
+                    </option>
+                  ))}
+                </select>
+              
+                <button 
+                  className="convert-button"
+                  onClick={handleConvert}
+                  disabled={conversionStatus === 'converting' || !outputFormat || !outputConfig.outputDirectory}
+                >
+                  {conversionStatus === 'converting' ? 'Converting...' : 'Convert Files'}
+                </button>
+              </div>
+            </div>
             
             {(conversionStatus === 'converting' || conversionStatus === 'paused' || conversionStatus === 'completed' || conversionStatus === 'error' || conversionStatus === 'cancelled') && (
-              <ProgressBar
-                progress={progress}
-                status={conversionStatus}
-                fileName={currentFileName}
-                startTime={conversionStartTime}
-                onCancel={(conversionStatus === 'converting' || conversionStatus === 'paused') ? handleCancel : null}
-                onPause={conversionStatus === 'converting' && !isPaused ? handlePause : null}
-                onResume={conversionStatus === 'paused' || isPaused ? handleResume : null}
-                showDetails={true}
-                compact={false}
-              />
+              <div className="progress-container">
+                <ProgressBar
+                  progress={progress}
+                  status={conversionStatus}
+                  fileName={currentFileName}
+                  startTime={conversionStartTime}
+                  onCancel={(conversionStatus === 'converting' || conversionStatus === 'paused') ? handleCancel : null}
+                  onPause={conversionStatus === 'converting' && !isPaused ? handlePause : null}
+                  onResume={conversionStatus === 'paused' || isPaused ? handleResume : null}
+                  showDetails={true}
+                  compact={false}
+                />
+              </div>
             )}
             
             {conversionStatus === 'completed' && (
@@ -767,7 +795,6 @@ const FileConverter = ({ category = 'document' }) => {
                 <p>⏹️ Conversion was cancelled.</p>
               </div>
             )}
-            </div>
           </>
         )}
         

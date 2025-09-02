@@ -1,83 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import ThemeToggle from './ThemeToggle';
+import React from 'react';
+import { FaCog, FaSun, FaMoon, FaPalette, FaExchangeAlt, FaList, FaCogs } from 'react-icons/fa';
 
-const Header = () => {
-  const [version, setVersion] = useState('');
-  const [theme, setTheme] = useState('system');
-
-  useEffect(() => {
-    if (window.electronAPI) {
-      // Electron environment
-      // Get app version
-      const getVersion = async () => {
-        try {
-          const response = await window.electronAPI.getAppVersion();
-          if (response.success) {
-            setVersion(response.data);
-          } else {
-            console.error('Failed to get app version:', response.error);
-          }
-        } catch (error) {
-          console.error('Failed to get app version:', error);
-        }
-      };
-
-      // Get theme info
-      const getTheme = async () => {
-        try {
-          const response = await window.electronAPI.getSystemTheme();
-          if (response.success) {
-            setTheme(response.data.themeSource);
-          } else {
-            console.error('Failed to get theme info:', response.error);
-          }
-        } catch (error) {
-          console.error('Failed to get theme info:', error);
-        }
-      };
-
-      getVersion();
-      getTheme();
-
-      // Listen for theme changes
-      const unsubscribeTheme = window.electronAPI.onThemeChanged((themeData) => {
-        setTheme(themeData.themeSource);
-      });
-
-      return () => {
-        unsubscribeTheme();
-      };
-    } else {
-      // Web environment fallback
-      setVersion('1.0.0'); // Default version for web
-      setTheme('system'); // Default theme
-    }
-  }, []);
-
-  const handleSettingsClick = () => {
-    // Dispatch custom event to open privacy settings
-    window.dispatchEvent(new CustomEvent('openPrivacySettings'));
+const Header = ({ 
+  currentTheme, 
+  onThemeChange, 
+  onSettingsClick,
+  showThemeToggle = true 
+}) => {
+  const handleThemeChange = (theme) => {
+    onThemeChange(theme);
   };
 
   return (
-    <header className={`app-header theme-${theme}`}>
-      <div className="header-left">
-        <ThemeToggle />
-      </div>
-      <div className="header-content">
-        <h1>Convert</h1>
-        <p>Universal File Converter</p>
-        {version && <span className="version">v{version}</span>}
-      </div>
-      <div className="header-right">
-        <button 
-          className="settings-button"
-          onClick={handleSettingsClick}
-          title="Privacy & Permissions Settings"
-          aria-label="Open privacy and permissions settings"
-        >
-          ⚙️
-        </button>
+    <header className="header">
+      <div className="nav-container">
+        <div className="nav-brand">
+          <div className="nav-logo">
+            <FaCog />
+          </div>
+          <div>
+            <div className="nav-title">Convert</div>
+            <div className="nav-subtitle">File Conversion Tool</div>
+          </div>
+        </div>
+        
+        <div className="nav-controls">
+          <div className="nav-box">
+            <a href="#converter" className="nav-item active">
+              <FaExchangeAlt className="nav-item-icon" />
+              <span className="nav-item-text">Converter</span>
+            </a>
+            <a href="#presets" className="nav-item">
+              <FaList className="nav-item-icon" />
+              <span className="nav-item-text">Presets</span>
+            </a>
+            <a href="#settings" className="nav-item">
+              <FaCogs className="nav-item-icon" />
+              <span className="nav-item-text">Settings</span>
+            </a>
+          </div>
+          
+          {showThemeToggle && (
+            <div className="theme-toggle">
+              <button
+                className="theme-toggle-btn"
+                onClick={() => onSettingsClick()}
+                aria-label="Open settings"
+              >
+                <FaPalette className="theme-icon" />
+                <span className="theme-label">Theme</span>
+              </button>
+              
+              <div className="theme-options">
+                <button
+                  className={`theme-option ${currentTheme === 'light' ? 'active' : ''}`}
+                  onClick={() => handleThemeChange('light')}
+                  aria-label="Light theme"
+                >
+                  <FaSun className="theme-icon" />
+                  Light
+                </button>
+                <button
+                  className={`theme-option ${currentTheme === 'dark' ? 'active' : ''}`}
+                  onClick={() => handleThemeChange('dark')}
+                  aria-label="Dark theme"
+                >
+                  <FaMoon className="theme-icon" />
+                  Dark
+                </button>
+                <button
+                  className={`theme-option ${currentTheme === 'auto' ? 'active' : ''}`}
+                  onClick={() => handleThemeChange('auto')}
+                  aria-label="Auto theme"
+                >
+                  <FaPalette className="theme-icon" />
+                  Auto
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );
