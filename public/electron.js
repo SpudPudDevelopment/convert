@@ -3,27 +3,39 @@ const path = require('path');
 const { autoUpdater } = require('electron-updater');
 const fs = require('fs');
 
-// Override environment detection for production builds BEFORE loading other modules
-if (app.isPackaged || process.env.NODE_ENV === 'production') {
+// Force environment detection for production builds
+console.log('Initial NODE_ENV:', process.env.NODE_ENV);
+console.log('Initial ELECTRON_IS_DEV:', process.env.ELECTRON_IS_DEV);
+console.log('app.isPackaged:', app.isPackaged);
+
+// Set production environment if not explicitly set to development
+if (process.env.NODE_ENV !== 'development' || app.isPackaged) {
   process.env.NODE_ENV = 'production';
   process.env.ELECTRON_IS_DEV = 'false';
 }
 
-// Get the app's resource path for correct imports in packaged app
-const isDevMode = process.env.NODE_ENV === 'development' || !app.isPackaged;
-const resourcePath = isDevMode ? path.join(__dirname, '..') : path.join(__dirname, '..');
+console.log('Final NODE_ENV:', process.env.NODE_ENV);
+console.log('Final ELECTRON_IS_DEV:', process.env.ELECTRON_IS_DEV);
 
-// Local configuration for main process (avoid loading shared config before env is set)
+// Get the app's resource path for correct imports in packaged app
+const isDev = process.env.NODE_ENV === 'development' && process.env.ELECTRON_IS_DEV === 'true';
+const resourcePath = isDev ? path.join(__dirname, '..') : path.join(__dirname, '..');
+
+console.log('isDev:', isDev);
+console.log('resourcePath:', resourcePath);
+
+// Local configuration for main process
 const localConfig = {
-  isDev: isDevMode,
-  isProduction: !isDevMode,
+  isDev: isDev,
+  isProduction: !isDev,
   debug: {
-    showDevTools: isDevMode
+    showDevTools: isDev
   }
 };
 
 const { registerMainHandlers } = require(path.join(resourcePath, 'src/shared/ipc/mainHandlers.js'));
-const { config } = require(path.join(resourcePath, 'src/shared/config/development.js'));
+// Remove shared config loading that interferes with environment detection
+// const { config } = require(path.join(resourcePath, 'src/shared/config/development.js'));
 const { logger } = require(path.join(resourcePath, 'src/shared/utils/logger.js'));
 const { devUtils } = require(path.join(resourcePath, 'src/shared/utils/devUtils.js'));
 const { init: initSentry } = require('@sentry/electron/main');
@@ -91,10 +103,10 @@ function shouldAllowUpdate(currentVersion, newVersion, allowDowngrade = false) {
 }
 
 // Development environment detection
-const isDev = localConfig.isDev;
+const isDevMode = localConfig.isDev;
 
 // Enable live reload for Electron in development
-if (isDev) {
+if (isDevMode) {
   try {
     require('electron-reload')(__dirname, {
       electron: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
@@ -150,7 +162,7 @@ function createWindow() {
       contextIsolation: true,
       enableRemoteModule: false,
       preload: path.join(__dirname, 'preload.js'),
-      devTools: isDev,
+      devTools: isDevMode,
       webSecurity: false
     },
     titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
@@ -160,7 +172,7 @@ function createWindow() {
   });
 
   // Load the app
-  const startUrl = isDev 
+  const startUrl = isDevMode 
     ? 'http://localhost:3000' 
     : `file://${path.join(__dirname, '../build/index.html')}`;
   
@@ -170,7 +182,7 @@ function createWindow() {
   console.log(`HTML path: ${path.join(__dirname, '../build/index.html')}`);
   
   // Check if the HTML file exists in production
-  if (!isDev) {
+  if (!isDevMode) {
     const htmlPath = path.join(__dirname, '../build/index.html');
     try {
       if (fs.existsSync(htmlPath)) {
@@ -226,7 +238,7 @@ function createWindow() {
     mainWindow.show();
     
     // Open dev tools in development to see renderer console
-    if (isDev) {
+    if (isDevMode) {
       mainWindow.webContents.openDevTools();
     }
     
@@ -516,7 +528,7 @@ function setupAutoUpdater() {
   }
   
   // Skip update checks in development
-  if (isDev) {
+  if (isDevMode) {
     console.log('Skipping auto-updater in development mode');
     return;
   }
@@ -605,7 +617,7 @@ function setupAutoUpdater() {
 // IPC handlers for auto-updater
 function setupUpdateIpcHandlers() {
   ipcMain.handle('check-for-updates', async () => {
-    if (isDev) {
+    if (isDevMode) {
       console.log('Skipping update check in development mode');
       return { updateAvailable: false, reason: 'development' };
     }
@@ -627,7 +639,7 @@ function setupUpdateIpcHandlers() {
   });
   
   ipcMain.handle('download-update', async () => {
-    if (isDev) {
+    if (isDevMode) {
       return { success: false, message: 'Updates disabled in development' };
     }
     
@@ -641,7 +653,7 @@ function setupUpdateIpcHandlers() {
   });
   
   ipcMain.handle('install-update', async () => {
-    if (isDev) {
+    if (isDevMode) {
       console.log('Skipping update installation in development mode');
       return { success: false, reason: 'development' };
     }
@@ -657,7 +669,7 @@ function setupUpdateIpcHandlers() {
   
   // Rollback functionality
   ipcMain.handle('rollback-update', async () => {
-    if (isDev) {
+    if (isDevMode) {
       console.log('Rollback not available in development mode');
       return { success: false, reason: 'development' };
     }

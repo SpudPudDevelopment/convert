@@ -6,7 +6,7 @@
 const { ipcMain, dialog, shell, app, nativeTheme } = require('electron');
 const fs = require('fs').promises;
 const path = require('path');
-const { IPC_CHANNELS, createIPCResponse, THEME_TYPES } = require('../types/ipc.js');
+const { IPC_CHANNELS, createIPCResponse, THEME_TYPES, ERROR_TYPES } = require('../types/ipc.js');
 const { logger } = require('../utils/logger.js');
 const { validateFilePath, sanitizeFilePath } = require('../utils/ipcUtils');
 const fileStreamService = require('../services/fileStreamService');
